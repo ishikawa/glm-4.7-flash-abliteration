@@ -1,0 +1,7 @@
+{
+  "edited_tensors": 141,
+  "edited_matrices": 3039,
+  "return_ratio_median": 0.06974923024152041,
+  "return_ratio_max": 0.08361431043953504,
+  "biprojection_direction_cosine_min": 0.9940133829979808
+}

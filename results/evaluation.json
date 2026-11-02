@@ -1,0 +1,122 @@
+{
+  "original": {
+    "harmbench": {
+      "total": 100,
+      "yes": 15,
+      "no": 85,
+      "truncated": 0,
+      "empty": 0,
+      "unparsed": 0
+    },
+    "heldout": {
+      "total": 50,
+      "yes": 12,
+      "no": 38,
+      "truncated": 0,
+      "empty": 0,
+      "unparsed": 0
+    },
+    "gsm8k": {
+      "total": 50,
+      "correct": 47,
+      "regenerated": 0,
+      "truncated": 0
+    },
+    "mmlu_pro": {
+      "total": 50,
+      "correct": 39,
+      "regenerated": 1,
+      "truncated": 0
+    }
+  },
+  "huihui-ai": {
+    "harmbench": {
+      "total": 100,
+      "yes": 92,
+      "no": 8,
+      "truncated": 0,
+      "empty": 0,
+      "unparsed": 0
+    },
+    "heldout": {
+      "total": 50,
+      "yes": 45,
+      "no": 5,
+      "truncated": 0,
+      "empty": 0,
+      "unparsed": 0
+    },
+    "gsm8k": {
+      "total": 50,
+      "correct": 48,
+      "regenerated": 0,
+      "truncated": 0
+    },
+    "mmlu_pro": {
+      "total": 50,
+      "correct": 42,
+      "regenerated": 3,
+      "truncated": 0
+    }
+  },
+  "layer24-k1": {
+    "harmbench": {
+      "total": 100,
+      "yes": 85,
+      "no": 15,
+      "truncated": 0,
+      "empty": 0,
+      "unparsed": 0
+    },
+    "heldout": {
+      "total": 50,
+      "yes": 43,
+      "no": 7,
+      "truncated": 0,
+      "empty": 0,
+      "unparsed": 0
+    },
+    "gsm8k": {
+      "total": 50,
+      "correct": 47,
+      "regenerated": 0,
+      "truncated": 0
+    },
+    "mmlu_pro": {
+      "total": 50,
+      "correct": 43,
+      "regenerated": 0,
+      "truncated": 0
+    }
+  },
+  "final": {
+    "harmbench": {
+      "total": 100,
+      "yes": 91,
+      "no": 9,
+      "truncated": 0,
+      "empty": 0,
+      "unparsed": 0
+    },
+    "heldout": {
+      "total": 50,
+      "yes": 45,
+      "no": 5,
+      "truncated": 0,
+      "empty": 0,
+      "unparsed": 0
+    },
+    "gsm8k": {
+      "total": 50,
+      "correct": 47,
+      "regenerated": 1,
+      "truncated": 0
+    },
+    "mmlu_pro": {
+      "total": 50,
+      "correct": 42,
+      "regenerated": 3,
+      "truncated": 1
+    }
+  }
+}
