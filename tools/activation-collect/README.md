@@ -1,7 +1,7 @@
 # Activation collector
 
 Collect the last input token's attention output, FFN output, residual and final
-normalized residual from GLM-4.7-Flash. The only profile is `glm47`: architecture
+normalized residual from [GLM-4.7-Flash](https://huggingface.co/zai-org/GLM-4.7-Flash). The only profile is `glm47`: architecture
 `deepseek2`, 47 main layers, hidden width 2048 and one residual stream. Layer
 indices are zero based; only main layers 0 through 46 are collected.
 

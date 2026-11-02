@@ -9,10 +9,10 @@ import modules through pytest's `pythonpath` setting.
 - `direction_fit.py` estimates directions and optional benign means
 - `direction_edit.py` edits GGUF tensors and verifies unchanged byte ranges
 - `gguf_header_scan.py` inspects GGUF headers without loading model weights
-- `refusal_prep.py` freezes evaluation subsets, including XSTest
+- `refusal_prep.py` freezes evaluation subsets, including [XSTest](https://github.com/paul-rottger/xstest)
 - `direction_prompts.py` generates, filters and splits direction prompts, removing evaluation overlaps
 - `refusal_eval.py` evaluates final answers and capability scores
-- `refusal_judge.py` uses the official HarmBench classifier
+- `refusal_judge.py` uses the official [HarmBench](https://github.com/centerforaisafety/HarmBench) classifier
 - `hf_publish.py` validates the GGUF and previews an upload plan; `--yes` invokes the external `hf` CLI
 
 Use `--help` for each entry point. Prompt generation uses served names

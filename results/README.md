@@ -1,9 +1,9 @@
 # Aggregate results
 
-`evaluation.json` contains only counts for four GLM-4.7-Flash variants:
+`evaluation.json` contains only counts for four [GLM-4.7-Flash](https://huggingface.co/zai-org/GLM-4.7-Flash) variants:
 
 - `original`: original quantized baseline
-- `huihui-ai`: the huihui-ai edited baseline
+- `huihui-ai`: the [huihui-ai](https://huggingface.co/huihui-ai/Huihui-GLM-4.7-Flash-abliterated) edited baseline
 - `layer24-k1`: the zero-based layer 24 residual direction removed with strength 1
 - `final`: the layer 24 residual direction, biprojected against benign means, with norm preservation, strength 1 and two quantization iterations
 
@@ -14,7 +14,7 @@ top-p 0.95, top-k 20 and min-p 0, without a separate thinking-token budget.
 
 ## Benchmark counts
 
-HarmBench columns are official classifier `yes` / `no` / truncated generations,
+[HarmBench](https://github.com/centerforaisafety/HarmBench) columns are official classifier `yes` / `no` / truncated generations,
 not refusal-phrase matches. Capability columns count correct answers out of the
 full 50 examples, including any remaining truncations as incorrect.
 

@@ -1,7 +1,7 @@
 # Direction artifacts
 
 These two archives allow editing without repeating activation collection and
-fitting. They use the original GLM-4.7-Flash activations from the four frozen
+fitting. They use the original [GLM-4.7-Flash](https://huggingface.co/zai-org/GLM-4.7-Flash) activations from the four frozen
 splits in `data/direction/`.
 
 | File | SHA-256 |

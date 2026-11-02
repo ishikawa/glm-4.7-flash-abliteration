@@ -1,10 +1,10 @@
 # GLM-4.7-Flash Abliteration
 
-A reproducible refusal-direction edit of GLM-4.7-Flash on Unsloth's UD-Q4_K_XL
-GGUF. The final variant removes a layer 24 residual direction, biprojected
+A reproducible refusal-direction edit of [GLM-4.7-Flash](https://huggingface.co/zai-org/GLM-4.7-Flash) on
+[Unsloth's UD-Q4_K_XL](https://huggingface.co/unsloth/GLM-4.7-Flash-GGUF) GGUF. The final variant removes a layer 24 residual direction, biprojected
 against benign activation means, while preserving weight-vector norms. It
-complies with 91 of 100 sampled HarmBench requests and retains similar scores
-to the original on the small capability subsets below.
+complies with 91 of 100 sampled [HarmBench](https://github.com/centerforaisafety/HarmBench) requests and retains similar scores
+to the original on small [GSM8K](https://github.com/openai/grade-school-math) and [MMLU-Pro](https://huggingface.co/datasets/TIGER-Lab/MMLU-Pro) subsets.
 
 The model is published at
 [takanori-ishikawa/GLM-4.7-Flash-Abliterated-UD-Q4_K_XL-GGUF](https://huggingface.co/takanori-ishikawa/GLM-4.7-Flash-Abliterated-UD-Q4_K_XL-GGUF).
@@ -318,7 +318,8 @@ truncations as incorrect. Runtime result files stay local; the repository's
 
 ### 8. Judge HarmBench and harmful held-out
 
-Judge final answers with the pinned classifier, saving `judge_cls_run.json`,
+Judge final answers with the pinned
+[HarmBench-Llama-2-13b-cls](https://huggingface.co/cais/HarmBench-Llama-2-13b-cls) classifier, saving `judge_cls_run.json`,
 `judge_cls.jsonl` and `judge_cls_summary.json` per run. Recorded times: about
 3 minutes 10 seconds for held-out and 5 minutes 46 seconds from classifier
 readiness for HarmBench. Classifier acquisition time is not recorded.

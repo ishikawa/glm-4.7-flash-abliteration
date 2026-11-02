@@ -16,8 +16,8 @@ tags:
 
 An abliterated build of [GLM-4.7-Flash](https://huggingface.co/zai-org/GLM-4.7-Flash)
 on [Unsloth's UD-Q4_K_XL](https://huggingface.co/unsloth/GLM-4.7-Flash-GGUF)
-quantization. It complies with 91 of 100 sampled HarmBench requests and retains
-similar scores to the original on the small GSM8K and MMLU-Pro subsets below.
+quantization. It complies with 91 of 100 sampled [HarmBench](https://github.com/centerforaisafety/HarmBench) requests and retains
+similar scores to the original on the small [GSM8K](https://github.com/openai/grade-school-math) and [MMLU-Pro](https://huggingface.co/datasets/TIGER-Lab/MMLU-Pro) subsets below.
 
 ## Files
 
@@ -44,7 +44,7 @@ adds only attention callback naming and has
 the same model computation. Sampling is temperature 1.0, top-p 0.95, top-k 20,
 min-p 0 and seed 407, with thinking enabled and no separate thinking budget.
 
-HarmBench uses the official HarmBench-Llama-2-13b-cls classifier in Q8_0 GGUF
+HarmBench uses the official [HarmBench-Llama-2-13b-cls](https://huggingface.co/cais/HarmBench-Llama-2-13b-cls) classifier in Q8_0 GGUF
 form. Only final answers are judged. [HarmBench's official evaluator](https://github.com/centerforaisafety/HarmBench/blob/main/evaluate_completions.py)
 uses `tokenizer.encode(generation, max_length=512, truncation=True)` with the
 Llama-2 tokenizer's default BOS, leaving 511 text tokens. This implementation
@@ -84,7 +84,7 @@ to reproduce the model. No external importance matrix is supplied during editing
 
 - Base model: [zai-org/GLM-4.7-Flash](https://huggingface.co/zai-org/GLM-4.7-Flash), MIT ([LICENSE](LICENSE))
 - Quantized tensors: [unsloth/GLM-4.7-Flash-GGUF](https://huggingface.co/unsloth/GLM-4.7-Flash-GGUF), UD-Q4_K_XL
-- Direction prompts: generated using Qwen3.8-Flash-Next and its uncensored variant, filtered and split as described in the recipe's data documentation ([NOTICE](NOTICE))
+- Direction prompts: generated using [Qwen3.8-Flash-Next](https://huggingface.co/Qwen/Qwen3.8-Flash-Next) and its uncensored variant, filtered and split as described in the recipe's data documentation ([NOTICE](NOTICE))
 
 The base model declares MIT in its model-card metadata without a standalone
 LICENSE file. The included LICENSE uses the standard MIT text with attribution

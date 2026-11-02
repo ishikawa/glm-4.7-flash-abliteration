@@ -14,7 +14,7 @@ manifest path `eval_dir` is relative to the repository root.
 | `benign_heldout.jsonl` | 50 | Direction separation validation |
 | `manifest.json` | — | Generation provenance, split seed, counts and hashes |
 
-The prompts were generated with Qwen3.8-Flash-Next and its uncensored variant.
+The prompts were generated with [Qwen3.8-Flash-Next](https://huggingface.co/Qwen/Qwen3.8-Flash-Next) and its uncensored variant.
 The recorded served names are `qwen3.8-flash-next-uncensored` for harmful
 candidates and `qwen3.8-flash-next` for benign candidates and filtering. The
 manifest does not pin model revisions or declare a separate license for these
