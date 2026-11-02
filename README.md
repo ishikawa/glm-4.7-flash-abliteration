@@ -225,6 +225,10 @@ default; add `--allow-copy` on filesystems without clone support. Do not reuse
 an output directory for a different edit. The artifact shortcut enters here
 with the supplied archives.
 
+With the supplied archives and the pinned inputs, this step reproduces the
+released GGUF byte for byte; compare its SHA-256 with the
+[model card](hf/README.md#files).
+
 ### 6. Generate evaluations
 
 Evaluate the edited GGUF on the frozen data, saving results and summaries under
