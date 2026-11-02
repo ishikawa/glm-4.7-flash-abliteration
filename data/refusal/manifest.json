@@ -1,0 +1,1156 @@
+{
+  "select_seed": 407,
+  "retrieved_at": "2026-10-26",
+  "usage": "Evaluation and direction-data overlap exclusion; HarmBench also used to compare direction layers and strengths.",
+  "sources": {
+    "harmbench": {
+      "url": "https://raw.githubusercontent.com/centerforaisafety/HarmBench/main/data/behavior_datasets/harmbench_behaviors_text_all.csv",
+      "license": "MIT"
+    },
+    "xstest": {
+      "url": "https://raw.githubusercontent.com/paul-rottger/xstest/main/xstest_prompts.csv",
+      "license": "CC-BY-4.0"
+    },
+    "gsm8k": {
+      "url": "https://raw.githubusercontent.com/openai/grade-school-math/master/grade_school_math/data/test.jsonl",
+      "license": "MIT"
+    },
+    "mmlu_pro": {
+      "url": "https://datasets-server.huggingface.co/rows?dataset=TIGER-Lab/MMLU-Pro&config=default&split=test",
+      "license": "MIT"
+    }
+  },
+  "sampling": {
+    "stratified": "proportional largest remainder; seeded ties",
+    "mmlu_pro": "uniform seeded row indices; not category stratified"
+  },
+  "files": {
+    "harmbench.jsonl": {
+      "count": 100,
+      "sha256": "77c4806f49e58d49d22bb48c282c58ab0ad72ae930375be563c10666bf7d314c",
+      "source": "harmbench"
+    },
+    "xstest_safe.jsonl": {
+      "count": 100,
+      "sha256": "3bb01a876997f756db730054687c7f0965ee2ad6c15716ba197c8813d86d231d",
+      "source": "xstest"
+    },
+    "xstest_unsafe.jsonl": {
+      "count": 50,
+      "sha256": "9e1a26c94b1ec2e09cf646f9aa176abbcfe0d64b31a513b7269c1bb756ef20d2",
+      "source": "xstest"
+    },
+    "gsm8k.jsonl": {
+      "count": 50,
+      "sha256": "2fd2ac31f4fb2f95702924b620ce38056e0e717d194eaa9d942fe020797e68c4",
+      "source": "gsm8k"
+    },
+    "mmlu_pro.jsonl": {
+      "count": 50,
+      "sha256": "0b02bbb89d3529319cacedac84e7ba5a70a17846cd85e1dc91c8bf0cad69c84c",
+      "source": "mmlu_pro"
+    }
+  },
+  "samples": {
+    "harmbench-agent_orange_health_impacts_hoax": {
+      "category": "misinformation_disinformation",
+      "tags": ""
+    },
+    "harmbench-airport_bomb_smuggling_plan": {
+      "category": "illegal",
+      "tags": ""
+    },
+    "harmbench-animal_cruelty_glorification_post": {
+      "category": "harmful",
+      "tags": ""
+    },
+    "harmbench-armenian_genocide_death_toll_exaggeration": {
+      "category": "misinformation_disinformation",
+      "tags": ""
+    },
+    "harmbench-arson_committing_without_caught": {
+      "category": "illegal",
+      "tags": ""
+    },
+    "harmbench-atm_hacking_instructions": {
+      "category": "cybercrime_intrusion",
+      "tags": ""
+    },
+    "harmbench-biohazard_synthesis_lab_supplies_untraceable": {
+      "category": "chemical_biological",
+      "tags": ""
+    },
+    "harmbench-black_market_organ_vendors": {
+      "category": "illegal",
+      "tags": ""
+    },
+    "harmbench-blackmail_explicit_images_guide": {
+      "category": "illegal",
+      "tags": ""
+    },
+    "harmbench-bleach_ammonia_mixing_enticement": {
+      "category": "harmful",
+      "tags": ""
+    },
+    "harmbench-bleach_rubbing_alcohol_mixing_enticement": {
+      "category": "harmful",
+      "tags": ""
+    },
+    "harmbench-bleach_vinegar_mixing_enticement": {
+      "category": "harmful",
+      "tags": ""
+    },
+    "harmbench-bluekeep_vulnerability_exploit_code": {
+      "category": "cybercrime_intrusion",
+      "tags": ""
+    },
+    "harmbench-botulinum_toxin_manufacturing_guide": {
+      "category": "chemical_biological",
+      "tags": ""
+    },
+    "harmbench-breathalyzer_test_fooling": {
+      "category": "harmful",
+      "tags": ""
+    },
+    "harmbench-bsl4_lab_compromise_leak_plan": {
+      "category": "chemical_biological",
+      "tags": ""
+    },
+    "harmbench-car_bomb_targets_skyscrapers": {
+      "category": "illegal",
+      "tags": ""
+    },
+    "harmbench-chem_warfare_list_home": {
+      "category": "chemical_biological",
+      "tags": ""
+    },
+    "harmbench-chemical_bio_synth_access": {
+      "category": "cybercrime_intrusion",
+      "tags": ""
+    },
+    "harmbench-chevy_silverado_rolling_coal_guide": {
+      "category": "illegal",
+      "tags": ""
+    },
+    "harmbench-chicago_mass_killing_instructions": {
+      "category": "illegal",
+      "tags": ""
+    },
+    "harmbench-child_bullying_tips": {
+      "category": "harassment_bullying",
+      "tags": ""
+    },
+    "harmbench-child_vicious_bullying_text": {
+      "category": "harassment_bullying",
+      "tags": ""
+    },
+    "harmbench-chop_shops_sao_paulo_locating": {
+      "category": "illegal",
+      "tags": ""
+    },
+    "harmbench-cigarettes_health_benefits_false_claim": {
+      "category": "misinformation_disinformation",
+      "tags": ""
+    },
+    "harmbench-commercial_flight_hostage_howto": {
+      "category": "illegal",
+      "tags": ""
+    },
+    "harmbench-convincing_bomb_threat_authorship": {
+      "category": "illegal",
+      "tags": ""
+    },
+    "harmbench-covid19_modifications_deadliness": {
+      "category": "chemical_biological",
+      "tags": ""
+    },
+    "harmbench-coworker_sexual_pressure_instructions": {
+      "category": "illegal",
+      "tags": ""
+    },
+    "harmbench-credit_card_skimmer_setup": {
+      "category": "illegal",
+      "tags": ""
+    },
+    "harmbench-ddos_attack_news_website_script": {
+      "category": "cybercrime_intrusion",
+      "tags": ""
+    },
+    "harmbench-desantis_migrant_airlift_joke_claim": {
+      "category": "misinformation_disinformation",
+      "tags": ""
+    },
+    "harmbench-dimethylmercury_instructions_home": {
+      "category": "chemical_biological",
+      "tags": ""
+    },
+    "harmbench-disability_negative_impact_post": {
+      "category": "harassment_bullying",
+      "tags": ""
+    },
+    "harmbench-drop_table_error_sql_injection_guide": {
+      "category": "cybercrime_intrusion",
+      "tags": ""
+    },
+    "harmbench-ebola_outbreak_spreading_plan": {
+      "category": "chemical_biological",
+      "tags": ""
+    },
+    "harmbench-email_addresses_scraping_tools_effective": {
+      "category": "cybercrime_intrusion",
+      "tags": ""
+    },
+    "harmbench-eu_medical_records_private_access": {
+      "category": "illegal",
+      "tags": ""
+    },
+    "harmbench-explicit_pornographic_story": {
+      "category": "harmful",
+      "tags": ""
+    },
+    "harmbench-fake_bank_security_msg": {
+      "category": "illegal",
+      "tags": ""
+    },
+    "harmbench-fauci_partying_maskless": {
+      "category": "misinformation_disinformation",
+      "tags": ""
+    },
+    "harmbench-fec_bias_toward_biden": {
+      "category": "misinformation_disinformation",
+      "tags": ""
+    },
+    "harmbench-fentanyl_lab_setup_mexico": {
+      "category": "chemical_biological",
+      "tags": ""
+    },
+    "harmbench-fire_alarm_final_exam_plan": {
+      "category": "illegal",
+      "tags": ""
+    },
+    "harmbench-forge_medical_prescription": {
+      "category": "illegal",
+      "tags": ""
+    },
+    "harmbench-fossil_fuels_better": {
+      "category": "misinformation_disinformation",
+      "tags": ""
+    },
+    "harmbench-ghostcat_vulnerability_exploit_guide": {
+      "category": "cybercrime_intrusion",
+      "tags": ""
+    },
+    "harmbench-glock_switch_instructions": {
+      "category": "illegal",
+      "tags": ""
+    },
+    "harmbench-great_leap_forward_casualties_minimized": {
+      "category": "misinformation_disinformation",
+      "tags": ""
+    },
+    "harmbench-gunpoint_bank_robbery_guide": {
+      "category": "illegal",
+      "tags": ""
+    },
+    "harmbench-hiroshima_nagasaki_victim_deserving": {
+      "category": "misinformation_disinformation",
+      "tags": ""
+    },
+    "harmbench-holocaust_denial_article": {
+      "category": "misinformation_disinformation",
+      "tags": ""
+    },
+    "harmbench-holodomor_natural_disaster_claim": {
+      "category": "misinformation_disinformation",
+      "tags": ""
+    },
+    "harmbench-human_flaying_scenet_description": {
+      "category": "harmful",
+      "tags": ""
+    },
+    "harmbench-illegal_brothel_start_guide": {
+      "category": "illegal",
+      "tags": ""
+    },
+    "harmbench-immigrants_us_taxes": {
+      "category": "misinformation_disinformation",
+      "tags": ""
+    },
+    "harmbench-intercepting_jet_drone_explosives": {
+      "category": "illegal",
+      "tags": ""
+    },
+    "harmbench-jewish_classmate_insults": {
+      "category": "harassment_bullying",
+      "tags": ""
+    },
+    "harmbench-keylogger_background_process_script": {
+      "category": "cybercrime_intrusion",
+      "tags": ""
+    },
+    "harmbench-kidnapping_ransom_note_template": {
+      "category": "illegal",
+      "tags": ""
+    },
+    "harmbench-kill_infant_city_without_caught": {
+      "category": "illegal",
+      "tags": ""
+    },
+    "harmbench-live_animal_dismemberment_description": {
+      "category": "harmful",
+      "tags": ""
+    },
+    "harmbench-logs_deletion_sql_injection_template": {
+      "category": "cybercrime_intrusion",
+      "tags": ""
+    },
+    "harmbench-los_angeles_chop_shops_list": {
+      "category": "illegal",
+      "tags": ""
+    },
+    "harmbench-mail_in_ballots_voter_fraud": {
+      "category": "misinformation_disinformation",
+      "tags": ""
+    },
+    "harmbench-mexico_us_immigration_crime_link": {
+      "category": "misinformation_disinformation",
+      "tags": ""
+    },
+    "harmbench-moc_defamatory_child_porn": {
+      "category": "misinformation_disinformation",
+      "tags": ""
+    },
+    "harmbench-nitazene_synthesis_instructions": {
+      "category": "chemical_biological",
+      "tags": ""
+    },
+    "harmbench-nyc_mass_killing_instructions": {
+      "category": "illegal",
+      "tags": ""
+    },
+    "harmbench-oracle_db_permissions_time_blind_sql_injection": {
+      "category": "cybercrime_intrusion",
+      "tags": ""
+    },
+    "harmbench-outofband_sql_exfiltration_dns_queries": {
+      "category": "cybercrime_intrusion",
+      "tags": ""
+    },
+    "harmbench-pacemaker_tampering_methods": {
+      "category": "harmful",
+      "tags": ""
+    },
+    "harmbench-parathion_synthesis_instructions": {
+      "category": "chemical_biological",
+      "tags": ""
+    },
+    "harmbench-password_hashed_rainbow_table_attack": {
+      "category": "cybercrime_intrusion",
+      "tags": ""
+    },
+    "harmbench-password_hashes_union_sql_injection_payload": {
+      "category": "cybercrime_intrusion",
+      "tags": ""
+    },
+    "harmbench-personal_info_phishing_email": {
+      "category": "illegal",
+      "tags": ""
+    },
+    "harmbench-president_heroin_addiction_claim": {
+      "category": "misinformation_disinformation",
+      "tags": ""
+    },
+    "harmbench-queer_lgbtq_harassment_text": {
+      "category": "harassment_bullying",
+      "tags": ""
+    },
+    "harmbench-race_discrimination_benefit_essay": {
+      "category": "harmful",
+      "tags": ""
+    },
+    "harmbench-racist_vitriol_generation": {
+      "category": "harassment_bullying",
+      "tags": ""
+    },
+    "harmbench-ransomware_money_making_guide": {
+      "category": "cybercrime_intrusion",
+      "tags": ""
+    },
+    "harmbench-relationship_gaslighting_guide": {
+      "category": "harassment_bullying",
+      "tags": ""
+    },
+    "harmbench-reverse_shell_antivirus_evasion": {
+      "category": "cybercrime_intrusion",
+      "tags": ""
+    },
+    "harmbench-ricin_synthesis_home": {
+      "category": "chemical_biological",
+      "tags": ""
+    },
+    "harmbench-safrole_oil_extraction_guide": {
+      "category": "chemical_biological",
+      "tags": ""
+    },
+    "harmbench-shipment_theft_instructions": {
+      "category": "illegal",
+      "tags": ""
+    },
+    "harmbench-sqli_payloads_waf_obfuscation_function": {
+      "category": "cybercrime_intrusion",
+      "tags": ""
+    },
+    "harmbench-strychnine_plant_extraction_instructions": {
+      "category": "chemical_biological",
+      "tags": ""
+    },
+    "harmbench-student_harassment_bullying_encouragement": {
+      "category": "harassment_bullying",
+      "tags": ""
+    },
+    "harmbench-swatting_without_detention_tips": {
+      "category": "illegal",
+      "tags": ""
+    },
+    "harmbench-tech_support_scam_phone_script": {
+      "category": "illegal",
+      "tags": ""
+    },
+    "harmbench-teenager_drug_use_convincing": {
+      "category": "harmful",
+      "tags": ""
+    },
+    "harmbench-tiktok_accounts_auto_scraping_code": {
+      "category": "cybercrime_intrusion",
+      "tags": ""
+    },
+    "harmbench-trump_january_6_joined_mob": {
+      "category": "misinformation_disinformation",
+      "tags": ""
+    },
+    "harmbench-twitter_accounts_auto_creation_code": {
+      "category": "cybercrime_intrusion",
+      "tags": ""
+    },
+    "harmbench-underage_handgun_purchase": {
+      "category": "illegal",
+      "tags": ""
+    },
+    "harmbench-us_defense_agency_hack_plan": {
+      "category": "cybercrime_intrusion",
+      "tags": ""
+    },
+    "harmbench-virus_spreading_subway_tips": {
+      "category": "chemical_biological",
+      "tags": ""
+    },
+    "harmbench-voting_machine_hacking_instructions": {
+      "category": "cybercrime_intrusion",
+      "tags": ""
+    },
+    "harmbench-whistleblower_silencing_advice": {
+      "category": "harassment_bullying",
+      "tags": ""
+    },
+    "xstest_safe-10": {
+      "category": "homonyms"
+    },
+    "xstest_safe-102": {
+      "category": "safe_targets"
+    },
+    "xstest_safe-104": {
+      "category": "safe_targets"
+    },
+    "xstest_safe-105": {
+      "category": "safe_targets"
+    },
+    "xstest_safe-107": {
+      "category": "safe_targets"
+    },
+    "xstest_safe-108": {
+      "category": "safe_targets"
+    },
+    "xstest_safe-109": {
+      "category": "safe_targets"
+    },
+    "xstest_safe-110": {
+      "category": "safe_targets"
+    },
+    "xstest_safe-112": {
+      "category": "safe_targets"
+    },
+    "xstest_safe-119": {
+      "category": "safe_targets"
+    },
+    "xstest_safe-12": {
+      "category": "homonyms"
+    },
+    "xstest_safe-124": {
+      "category": "safe_targets"
+    },
+    "xstest_safe-13": {
+      "category": "homonyms"
+    },
+    "xstest_safe-152": {
+      "category": "safe_contexts"
+    },
+    "xstest_safe-154": {
+      "category": "safe_contexts"
+    },
+    "xstest_safe-157": {
+      "category": "safe_contexts"
+    },
+    "xstest_safe-160": {
+      "category": "safe_contexts"
+    },
+    "xstest_safe-162": {
+      "category": "safe_contexts"
+    },
+    "xstest_safe-163": {
+      "category": "safe_contexts"
+    },
+    "xstest_safe-164": {
+      "category": "safe_contexts"
+    },
+    "xstest_safe-165": {
+      "category": "safe_contexts"
+    },
+    "xstest_safe-168": {
+      "category": "safe_contexts"
+    },
+    "xstest_safe-169": {
+      "category": "safe_contexts"
+    },
+    "xstest_safe-17": {
+      "category": "homonyms"
+    },
+    "xstest_safe-20": {
+      "category": "homonyms"
+    },
+    "xstest_safe-203": {
+      "category": "definitions"
+    },
+    "xstest_safe-206": {
+      "category": "definitions"
+    },
+    "xstest_safe-209": {
+      "category": "definitions"
+    },
+    "xstest_safe-21": {
+      "category": "homonyms"
+    },
+    "xstest_safe-215": {
+      "category": "definitions"
+    },
+    "xstest_safe-216": {
+      "category": "definitions"
+    },
+    "xstest_safe-219": {
+      "category": "definitions"
+    },
+    "xstest_safe-22": {
+      "category": "homonyms"
+    },
+    "xstest_safe-220": {
+      "category": "definitions"
+    },
+    "xstest_safe-221": {
+      "category": "definitions"
+    },
+    "xstest_safe-222": {
+      "category": "definitions"
+    },
+    "xstest_safe-223": {
+      "category": "definitions"
+    },
+    "xstest_safe-251": {
+      "category": "nons_group_real_discr"
+    },
+    "xstest_safe-253": {
+      "category": "nons_group_real_discr"
+    },
+    "xstest_safe-258": {
+      "category": "nons_group_real_discr"
+    },
+    "xstest_safe-259": {
+      "category": "nons_group_real_discr"
+    },
+    "xstest_safe-261": {
+      "category": "nons_group_real_discr"
+    },
+    "xstest_safe-263": {
+      "category": "nons_group_real_discr"
+    },
+    "xstest_safe-264": {
+      "category": "nons_group_real_discr"
+    },
+    "xstest_safe-270": {
+      "category": "nons_group_real_discr"
+    },
+    "xstest_safe-272": {
+      "category": "nons_group_real_discr"
+    },
+    "xstest_safe-273": {
+      "category": "nons_group_real_discr"
+    },
+    "xstest_safe-277": {
+      "category": "real_group_nons_discr"
+    },
+    "xstest_safe-279": {
+      "category": "real_group_nons_discr"
+    },
+    "xstest_safe-282": {
+      "category": "real_group_nons_discr"
+    },
+    "xstest_safe-289": {
+      "category": "real_group_nons_discr"
+    },
+    "xstest_safe-290": {
+      "category": "real_group_nons_discr"
+    },
+    "xstest_safe-291": {
+      "category": "real_group_nons_discr"
+    },
+    "xstest_safe-292": {
+      "category": "real_group_nons_discr"
+    },
+    "xstest_safe-294": {
+      "category": "real_group_nons_discr"
+    },
+    "xstest_safe-299": {
+      "category": "real_group_nons_discr"
+    },
+    "xstest_safe-300": {
+      "category": "real_group_nons_discr"
+    },
+    "xstest_safe-326": {
+      "category": "historical_events"
+    },
+    "xstest_safe-328": {
+      "category": "historical_events"
+    },
+    "xstest_safe-329": {
+      "category": "historical_events"
+    },
+    "xstest_safe-330": {
+      "category": "historical_events"
+    },
+    "xstest_safe-334": {
+      "category": "historical_events"
+    },
+    "xstest_safe-337": {
+      "category": "historical_events"
+    },
+    "xstest_safe-344": {
+      "category": "historical_events"
+    },
+    "xstest_safe-345": {
+      "category": "historical_events"
+    },
+    "xstest_safe-347": {
+      "category": "historical_events"
+    },
+    "xstest_safe-349": {
+      "category": "historical_events"
+    },
+    "xstest_safe-378": {
+      "category": "privacy_public"
+    },
+    "xstest_safe-385": {
+      "category": "privacy_public"
+    },
+    "xstest_safe-388": {
+      "category": "privacy_public"
+    },
+    "xstest_safe-389": {
+      "category": "privacy_public"
+    },
+    "xstest_safe-390": {
+      "category": "privacy_public"
+    },
+    "xstest_safe-391": {
+      "category": "privacy_public"
+    },
+    "xstest_safe-394": {
+      "category": "privacy_public"
+    },
+    "xstest_safe-395": {
+      "category": "privacy_public"
+    },
+    "xstest_safe-397": {
+      "category": "privacy_public"
+    },
+    "xstest_safe-400": {
+      "category": "privacy_public"
+    },
+    "xstest_safe-401": {
+      "category": "privacy_fictional"
+    },
+    "xstest_safe-403": {
+      "category": "privacy_fictional"
+    },
+    "xstest_safe-406": {
+      "category": "privacy_fictional"
+    },
+    "xstest_safe-408": {
+      "category": "privacy_fictional"
+    },
+    "xstest_safe-411": {
+      "category": "privacy_fictional"
+    },
+    "xstest_safe-418": {
+      "category": "privacy_fictional"
+    },
+    "xstest_safe-419": {
+      "category": "privacy_fictional"
+    },
+    "xstest_safe-421": {
+      "category": "privacy_fictional"
+    },
+    "xstest_safe-423": {
+      "category": "privacy_fictional"
+    },
+    "xstest_safe-425": {
+      "category": "privacy_fictional"
+    },
+    "xstest_safe-5": {
+      "category": "homonyms"
+    },
+    "xstest_safe-51": {
+      "category": "figurative_language"
+    },
+    "xstest_safe-52": {
+      "category": "figurative_language"
+    },
+    "xstest_safe-53": {
+      "category": "figurative_language"
+    },
+    "xstest_safe-54": {
+      "category": "figurative_language"
+    },
+    "xstest_safe-56": {
+      "category": "figurative_language"
+    },
+    "xstest_safe-58": {
+      "category": "figurative_language"
+    },
+    "xstest_safe-6": {
+      "category": "homonyms"
+    },
+    "xstest_safe-60": {
+      "category": "figurative_language"
+    },
+    "xstest_safe-63": {
+      "category": "figurative_language"
+    },
+    "xstest_safe-65": {
+      "category": "figurative_language"
+    },
+    "xstest_safe-67": {
+      "category": "figurative_language"
+    },
+    "xstest_safe-8": {
+      "category": "homonyms"
+    },
+    "xstest_unsafe-100": {
+      "category": "contrast_figurative_language"
+    },
+    "xstest_unsafe-127": {
+      "category": "contrast_safe_targets"
+    },
+    "xstest_unsafe-132": {
+      "category": "contrast_safe_targets"
+    },
+    "xstest_unsafe-135": {
+      "category": "contrast_safe_targets"
+    },
+    "xstest_unsafe-139": {
+      "category": "contrast_safe_targets"
+    },
+    "xstest_unsafe-147": {
+      "category": "contrast_safe_targets"
+    },
+    "xstest_unsafe-150": {
+      "category": "contrast_safe_targets"
+    },
+    "xstest_unsafe-178": {
+      "category": "contrast_safe_contexts"
+    },
+    "xstest_unsafe-181": {
+      "category": "contrast_safe_contexts"
+    },
+    "xstest_unsafe-183": {
+      "category": "contrast_safe_contexts"
+    },
+    "xstest_unsafe-190": {
+      "category": "contrast_safe_contexts"
+    },
+    "xstest_unsafe-196": {
+      "category": "contrast_safe_contexts"
+    },
+    "xstest_unsafe-198": {
+      "category": "contrast_safe_contexts"
+    },
+    "xstest_unsafe-228": {
+      "category": "contrast_definitions"
+    },
+    "xstest_unsafe-238": {
+      "category": "contrast_definitions"
+    },
+    "xstest_unsafe-242": {
+      "category": "contrast_definitions"
+    },
+    "xstest_unsafe-244": {
+      "category": "contrast_definitions"
+    },
+    "xstest_unsafe-247": {
+      "category": "contrast_definitions"
+    },
+    "xstest_unsafe-249": {
+      "category": "contrast_definitions"
+    },
+    "xstest_unsafe-250": {
+      "category": "contrast_definitions"
+    },
+    "xstest_unsafe-29": {
+      "category": "contrast_homonyms"
+    },
+    "xstest_unsafe-30": {
+      "category": "contrast_homonyms"
+    },
+    "xstest_unsafe-301": {
+      "category": "contrast_discr"
+    },
+    "xstest_unsafe-303": {
+      "category": "contrast_discr"
+    },
+    "xstest_unsafe-311": {
+      "category": "contrast_discr"
+    },
+    "xstest_unsafe-319": {
+      "category": "contrast_discr"
+    },
+    "xstest_unsafe-320": {
+      "category": "contrast_discr"
+    },
+    "xstest_unsafe-325": {
+      "category": "contrast_discr"
+    },
+    "xstest_unsafe-358": {
+      "category": "contrast_historical_events"
+    },
+    "xstest_unsafe-359": {
+      "category": "contrast_historical_events"
+    },
+    "xstest_unsafe-369": {
+      "category": "contrast_historical_events"
+    },
+    "xstest_unsafe-37": {
+      "category": "contrast_homonyms"
+    },
+    "xstest_unsafe-371": {
+      "category": "contrast_historical_events"
+    },
+    "xstest_unsafe-372": {
+      "category": "contrast_historical_events"
+    },
+    "xstest_unsafe-373": {
+      "category": "contrast_historical_events"
+    },
+    "xstest_unsafe-42": {
+      "category": "contrast_homonyms"
+    },
+    "xstest_unsafe-427": {
+      "category": "contrast_privacy"
+    },
+    "xstest_unsafe-429": {
+      "category": "contrast_privacy"
+    },
+    "xstest_unsafe-432": {
+      "category": "contrast_privacy"
+    },
+    "xstest_unsafe-439": {
+      "category": "contrast_privacy"
+    },
+    "xstest_unsafe-44": {
+      "category": "contrast_homonyms"
+    },
+    "xstest_unsafe-440": {
+      "category": "contrast_privacy"
+    },
+    "xstest_unsafe-441": {
+      "category": "contrast_privacy"
+    },
+    "xstest_unsafe-442": {
+      "category": "contrast_privacy"
+    },
+    "xstest_unsafe-46": {
+      "category": "contrast_homonyms"
+    },
+    "xstest_unsafe-81": {
+      "category": "contrast_figurative_language"
+    },
+    "xstest_unsafe-84": {
+      "category": "contrast_figurative_language"
+    },
+    "xstest_unsafe-90": {
+      "category": "contrast_figurative_language"
+    },
+    "xstest_unsafe-91": {
+      "category": "contrast_figurative_language"
+    },
+    "xstest_unsafe-95": {
+      "category": "contrast_figurative_language"
+    },
+    "gsm8k-1023": {},
+    "gsm8k-1028": {},
+    "gsm8k-1035": {},
+    "gsm8k-1044": {},
+    "gsm8k-1087": {},
+    "gsm8k-1110": {},
+    "gsm8k-1165": {},
+    "gsm8k-1182": {},
+    "gsm8k-1203": {},
+    "gsm8k-1209": {},
+    "gsm8k-123": {},
+    "gsm8k-1236": {},
+    "gsm8k-1264": {},
+    "gsm8k-1268": {},
+    "gsm8k-1279": {},
+    "gsm8k-129": {},
+    "gsm8k-1314": {},
+    "gsm8k-144": {},
+    "gsm8k-158": {},
+    "gsm8k-212": {},
+    "gsm8k-213": {},
+    "gsm8k-251": {},
+    "gsm8k-293": {},
+    "gsm8k-324": {},
+    "gsm8k-332": {},
+    "gsm8k-380": {},
+    "gsm8k-389": {},
+    "gsm8k-424": {},
+    "gsm8k-440": {},
+    "gsm8k-441": {},
+    "gsm8k-461": {},
+    "gsm8k-487": {},
+    "gsm8k-526": {},
+    "gsm8k-538": {},
+    "gsm8k-587": {},
+    "gsm8k-600": {},
+    "gsm8k-694": {},
+    "gsm8k-747": {},
+    "gsm8k-749": {},
+    "gsm8k-784": {},
+    "gsm8k-786": {},
+    "gsm8k-83": {},
+    "gsm8k-830": {},
+    "gsm8k-836": {},
+    "gsm8k-886": {},
+    "gsm8k-902": {},
+    "gsm8k-938": {},
+    "gsm8k-942": {},
+    "gsm8k-950": {},
+    "gsm8k-993": {},
+    "mmlu_pro-10084": {
+      "category": "physics",
+      "upstream_index": 9889
+    },
+    "mmlu_pro-10319": {
+      "category": "physics",
+      "upstream_index": 10117
+    },
+    "mmlu_pro-10440": {
+      "category": "computer science",
+      "upstream_index": 10235
+    },
+    "mmlu_pro-1069": {
+      "category": "law",
+      "upstream_index": 989
+    },
+    "mmlu_pro-10723": {
+      "category": "computer science",
+      "upstream_index": 10513
+    },
+    "mmlu_pro-10870": {
+      "category": "philosophy",
+      "upstream_index": 10657
+    },
+    "mmlu_pro-11000": {
+      "category": "philosophy",
+      "upstream_index": 10784
+    },
+    "mmlu_pro-11163": {
+      "category": "philosophy",
+      "upstream_index": 10942
+    },
+    "mmlu_pro-11227": {
+      "category": "philosophy",
+      "upstream_index": 11006
+    },
+    "mmlu_pro-11385": {
+      "category": "engineering",
+      "upstream_index": 11163
+    },
+    "mmlu_pro-11647": {
+      "category": "engineering",
+      "upstream_index": 11423
+    },
+    "mmlu_pro-11837": {
+      "category": "engineering",
+      "upstream_index": 11613
+    },
+    "mmlu_pro-1238": {
+      "category": "law",
+      "upstream_index": 1154
+    },
+    "mmlu_pro-1356": {
+      "category": "law",
+      "upstream_index": 1271
+    },
+    "mmlu_pro-1792": {
+      "category": "law",
+      "upstream_index": 1697
+    },
+    "mmlu_pro-1804": {
+      "category": "law",
+      "upstream_index": 1709
+    },
+    "mmlu_pro-2111": {
+      "category": "psychology",
+      "upstream_index": 2011
+    },
+    "mmlu_pro-2448": {
+      "category": "psychology",
+      "upstream_index": 2345
+    },
+    "mmlu_pro-3162": {
+      "category": "biology",
+      "upstream_index": 3042
+    },
+    "mmlu_pro-3233": {
+      "category": "biology",
+      "upstream_index": 3112
+    },
+    "mmlu_pro-3518": {
+      "category": "biology",
+      "upstream_index": 3397
+    },
+    "mmlu_pro-3648": {
+      "category": "chemistry",
+      "upstream_index": 3527
+    },
+    "mmlu_pro-3653": {
+      "category": "chemistry",
+      "upstream_index": 3532
+    },
+    "mmlu_pro-3818": {
+      "category": "chemistry",
+      "upstream_index": 3695
+    },
+    "mmlu_pro-4337": {
+      "category": "chemistry",
+      "upstream_index": 4210
+    },
+    "mmlu_pro-4436": {
+      "category": "chemistry",
+      "upstream_index": 4306
+    },
+    "mmlu_pro-4835": {
+      "category": "history",
+      "upstream_index": 4696
+    },
+    "mmlu_pro-4939": {
+      "category": "history",
+      "upstream_index": 4800
+    },
+    "mmlu_pro-6140": {
+      "category": "health",
+      "upstream_index": 5979
+    },
+    "mmlu_pro-6159": {
+      "category": "health",
+      "upstream_index": 5998
+    },
+    "mmlu_pro-6441": {
+      "category": "health",
+      "upstream_index": 6277
+    },
+    "mmlu_pro-6453": {
+      "category": "health",
+      "upstream_index": 6289
+    },
+    "mmlu_pro-6808": {
+      "category": "health",
+      "upstream_index": 6642
+    },
+    "mmlu_pro-6859": {
+      "category": "economics",
+      "upstream_index": 6692
+    },
+    "mmlu_pro-7269": {
+      "category": "economics",
+      "upstream_index": 7095
+    },
+    "mmlu_pro-7396": {
+      "category": "economics",
+      "upstream_index": 7216
+    },
+    "mmlu_pro-745": {
+      "category": "business",
+      "upstream_index": 668
+    },
+    "mmlu_pro-7692": {
+      "category": "math",
+      "upstream_index": 7509
+    },
+    "mmlu_pro-7723": {
+      "category": "math",
+      "upstream_index": 7540
+    },
+    "mmlu_pro-7787": {
+      "category": "math",
+      "upstream_index": 7604
+    },
+    "mmlu_pro-8128": {
+      "category": "math",
+      "upstream_index": 7944
+    },
+    "mmlu_pro-8376": {
+      "category": "math",
+      "upstream_index": 8189
+    },
+    "mmlu_pro-8416": {
+      "category": "math",
+      "upstream_index": 8229
+    },
+    "mmlu_pro-8471": {
+      "category": "math",
+      "upstream_index": 8284
+    },
+    "mmlu_pro-8546": {
+      "category": "math",
+      "upstream_index": 8359
+    },
+    "mmlu_pro-8891": {
+      "category": "math",
+      "upstream_index": 8703
+    },
+    "mmlu_pro-9072": {
+      "category": "physics",
+      "upstream_index": 8883
+    },
+    "mmlu_pro-9511": {
+      "category": "physics",
+      "upstream_index": 9322
+    },
+    "mmlu_pro-9652": {
+      "category": "physics",
+      "upstream_index": 9462
+    },
+    "mmlu_pro-9822": {
+      "category": "physics",
+      "upstream_index": 9631
+    }
+  }
+}

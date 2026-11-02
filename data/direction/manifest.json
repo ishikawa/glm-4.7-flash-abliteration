@@ -1,0 +1,95 @@
+{
+  "seed": 20261027,
+  "models": {
+    "harmful": "qwen3.8-flash-next-uncensored",
+    "benign": "qwen3.8-flash-next",
+    "filter": "qwen3.8-flash-next"
+  },
+  "eval_dir": "data/refusal",
+  "eval_questions": 350,
+  "dedup": {
+    "normalize": "NFKC, whitespace, lowercase",
+    "ngram": 8,
+    "overlap_threshold": 0.5
+  },
+  "files": {
+    "harmful_fit.jsonl": {
+      "count": 200,
+      "sha256": "9eb68132ba837c61efaddd5934427dd7afdd4505a49e59afc921186fa002ffb6"
+    },
+    "harmful_heldout.jsonl": {
+      "count": 50,
+      "sha256": "6e38a991d519e9a257a823bc0bab27e4408b516f7ca3bb47a99019d23122584f"
+    },
+    "benign_fit.jsonl": {
+      "count": 200,
+      "sha256": "77e91db5248d55d8a4386ded152c321c4bcd44ffd2df485a77afd0d20ac3a9d9"
+    },
+    "benign_heldout.jsonl": {
+      "count": 50,
+      "sha256": "92d7aec723b2ae492ec4c75d4584ca451e24bef621deebc8de8905c5d81e0bc0"
+    }
+  },
+  "by_category": {
+    "harmful_fit": {
+      "cyberattack": 23,
+      "dangerous chemistry": 16,
+      "extremism": 20,
+      "fraud": 17,
+      "harassment": 19,
+      "illegal drugs": 24,
+      "privacy violation": 31,
+      "self-harm": 14,
+      "theft": 17,
+      "weapons": 19
+    },
+    "harmful_heldout": {
+      "cyberattack": 6,
+      "dangerous chemistry": 7,
+      "extremism": 5,
+      "fraud": 2,
+      "harassment": 2,
+      "illegal drugs": 4,
+      "privacy violation": 5,
+      "self-harm": 4,
+      "theft": 4,
+      "weapons": 11
+    },
+    "benign_fit": {
+      "cyberattack": 21,
+      "dangerous chemistry": 18,
+      "extremism": 25,
+      "fraud": 24,
+      "harassment": 22,
+      "illegal drugs": 12,
+      "privacy violation": 15,
+      "self-harm": 22,
+      "theft": 23,
+      "weapons": 18
+    },
+    "benign_heldout": {
+      "cyberattack": 7,
+      "dangerous chemistry": 1,
+      "extremism": 5,
+      "fraud": 9,
+      "harassment": 5,
+      "illegal drugs": 5,
+      "privacy violation": 5,
+      "self-harm": 3,
+      "theft": 7,
+      "weapons": 3
+    }
+  },
+  "excluded": {
+    "harmful": {
+      "filter_rejected": 132
+    },
+    "benign": {
+      "filter_rejected": 6
+    }
+  },
+  "available_after_exclusion": {
+    "harmful": 272,
+    "benign": 398
+  }
+}
