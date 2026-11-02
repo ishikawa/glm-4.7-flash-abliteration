@@ -1,0 +1,15 @@
+.venv/
+__pycache__/
+*.py[cod]
+.ruff_cache/
+.pytest_cache/
+build*/
+logs/
+_work/
+*.gguf
+*.part
+*.part.json
+*.tmp
+*.swp
+*~
+.DS_Store

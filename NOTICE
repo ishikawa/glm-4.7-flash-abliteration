@@ -1,0 +1,35 @@
+GLM-4.7-Flash Abliteration
+Copyright 2026 Takanori Ishikawa
+
+Repository code is licensed under Apache License 2.0. Dataset and model license
+information below is separate from the repository code license.
+
+Frozen evaluation subsets:
+- HarmBench, centerforaisafety/HarmBench, MIT
+  https://github.com/centerforaisafety/HarmBench
+- GSM8K, openai/grade-school-math, MIT
+  https://github.com/openai/grade-school-math
+- MMLU-Pro, TIGER-Lab/MMLU-Pro, MIT
+  https://huggingface.co/datasets/TIGER-Lab/MMLU-Pro
+- XSTest, paul-rottger/xstest, CC-BY-4.0
+  https://github.com/paul-rottger/xstest
+
+These subsets normalize upstream fields into JSONL, sample records with seed
+407, and add final-answer formatting instructions to capability inputs.
+See data/README.md and data/refusal/manifest.json for source URLs and hashes.
+
+Direction prompts are generated using Qwen3.8-Flash-Next and its uncensored
+variant. Recorded served names are qwen3.8-flash-next-uncensored for harmful
+generation and qwen3.8-flash-next for benign generation and filtering. The
+manifest does not record fixed model revisions or a separate license grant for
+the generated prompts. See data/direction/manifest.json and data/README.md.
+
+The activation collector uses llama.cpp, licensed under the MIT License:
+https://github.com/ishikawa/llama.cpp
+https://github.com/ishikawa/llama.cpp/blob/ddf120c50a8acfbf873c16cb070c2b5e4bb6a2fe/LICENSE
+Its build links llama.cpp libraries and uses its common chat/template interfaces,
+GGML interfaces, vendored JSON headers and SHA-256 implementation. These external
+sources are supplied by the llama.cpp source tree rather than bundled here.
+
+The model release under hf/ uses MIT as declared by zai-org/GLM-4.7-Flash.
+See hf/LICENSE and hf/NOTICE for model attribution and quantized-tensor provenance.
