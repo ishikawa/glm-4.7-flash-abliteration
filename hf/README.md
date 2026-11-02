@@ -17,9 +17,7 @@ tags:
 An abliterated build of [GLM-4.7-Flash](https://huggingface.co/zai-org/GLM-4.7-Flash)
 on [Unsloth's UD-Q4_K_XL](https://huggingface.co/unsloth/GLM-4.7-Flash-GGUF)
 quantization. It complies with 91 of 100 sampled HarmBench requests and retains
-similar scores to the original on the small GSM8K and MMLU-Pro subsets below
-
-Repository: `takanori-ishikawa/GLM-4.7-Flash-Abliterated-UD-Q4_K_XL-GGUF`
+similar scores to the original on the small GSM8K and MMLU-Pro subsets below.
 
 ## Files
 
@@ -29,8 +27,8 @@ Repository: `takanori-ishikawa/GLM-4.7-Flash-Abliterated-UD-Q4_K_XL-GGUF`
 
 ## Running
 
-Use [llama.cpp](https://github.com/ishikawa/llama.cpp/commit/ddf120c50a8acfbf873c16cb070c2b5e4bb6a2fe)
-with GLM-4.7-Flash support. Set `LLAMA_CPP_DIR` to its source/build directory
+Use upstream [llama.cpp](https://github.com/ggml-org/llama.cpp), which supports
+GLM-4.7-Flash. Set `LLAMA_CPP_DIR` to its source/build directory.
 
 ```sh
 hf download takanori-ishikawa/GLM-4.7-Flash-Abliterated-UD-Q4_K_XL-GGUF \
@@ -38,27 +36,30 @@ hf download takanori-ishikawa/GLM-4.7-Flash-Abliterated-UD-Q4_K_XL-GGUF \
 
 "$LLAMA_CPP_DIR/build/bin/llama-server" \
   -m models/GLM-4.7-Flash-Abliterated-UD-Q4_K_XL.gguf \
-  -a glm-4.7-flash -ngl 99 -c 65536 -np 1 --spec-type none \
-  --temp 1.0 --top-p 0.95 --top-k 20 --min-p 0 \
-  --jinja --host 127.0.0.1 --port 8080
+  -ngl 99 -c 65536 --jinja
 ```
 
 Use the server's OpenAI-compatible API at `http://127.0.0.1:8080/v1`.
 Thinking follows the embedded chat template. Long reasoning can exhaust the
 output limit; the evaluation uses 16K output tokens and regenerates only
-truncated capability examples with a 32K limit
+truncated capability examples with a 32K limit.
 
 ## Evaluation
 
 HarmBench standard 100, GSM8K test 50 and MMLU-Pro test 50, sampled with seed 407.
-Evaluation runs on an M4 Pro Mac mini with 64 GB RAM, using llama.cpp commit
-`5c4fc1a68`. The linked `ddf120c50` adds only attention callback naming and has
+Evaluation runs on an M4 Pro Mac mini with 64 GB RAM, using the llama.cpp fork
+at commit `5c4fc1a68`. Its successor
+[ddf120c50](https://github.com/ishikawa/llama.cpp/commit/ddf120c50a8acfbf873c16cb070c2b5e4bb6a2fe)
+adds only attention callback naming and has
 the same model computation. Sampling is temperature 1.0, top-p 0.95, top-k 20,
-min-p 0 and seed 407, with thinking enabled and no separate thinking budget
+min-p 0 and seed 407, with thinking enabled and no separate thinking budget.
 
 HarmBench uses the official HarmBench-Llama-2-13b-cls classifier in Q8_0 GGUF
-form. Only the final answer is judged, clipped to the implementation limit of
-511 classifier-tokenizer tokens; the classifier predicts one token
+form. Only final answers are judged. [HarmBench's official evaluator](https://github.com/centerforaisafety/HarmBench/blob/main/evaluate_completions.py)
+uses `tokenizer.encode(generation, max_length=512, truncation=True)` with the
+Llama-2 tokenizer's default BOS, leaving 511 text tokens. This implementation
+matches it with `add_special=false` and a 511-token text limit;
+the classifier predicts one token.
 
 | Model | HarmBench yes / no / truncated (100) | GSM8K correct / 50 | MMLU-Pro correct / 50 |
 | --- | --- | ---: | ---: |
@@ -72,7 +73,7 @@ form. Only the final answer is judged, clipped to the implementation limit of
 Q4_K_M; `layer24-k1` removes the L24 residual direction without biprojection or
 norm preservation; `final` is this model. Capability counts replace 16K
 truncations with their 32K regenerations. One final-model MMLU-Pro example remains
-truncated and counts as incorrect
+truncated and counts as incorrect.
 
 - These are small evaluation sets; differences of a few answers do not establish broad capability differences
 - HarmBench helps select direction layers and strengths; editing methods are selected on 50 generated harmful held-out prompts, so these are not untouched evaluations of all choices
@@ -87,7 +88,7 @@ truncated and counts as incorrect
 4. Quantize each tensor back to its original Unsloth type with two fixed-target correction iterations; preserve all unedited GGUF bytes
 
 See the [recipe, scripts, frozen data and aggregate results](https://github.com/ishikawa/glm-4.7-flash-abliteration)
-to reproduce the model. No external importance matrix is supplied during editing
+to reproduce the model. No external importance matrix is supplied during editing.
 
 ## License and credits
 
@@ -97,4 +98,4 @@ to reproduce the model. No external importance matrix is supplied during editing
 
 The base model declares MIT in its model-card metadata without a standalone
 LICENSE file. The included LICENSE uses the standard MIT text with attribution
-to the GLM-4.7-Flash authors
+to the GLM-4.7-Flash authors.

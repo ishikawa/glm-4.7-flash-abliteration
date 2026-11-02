@@ -4,11 +4,11 @@ A reproducible refusal-direction edit of GLM-4.7-Flash on Unsloth's UD-Q4_K_XL
 GGUF. The final variant removes a layer 24 residual direction, biprojected
 against benign activation means, while preserving weight-vector norms. It
 complies with 91 of 100 sampled HarmBench requests and retains similar scores
-to the original on the small capability subsets below
+to the original on the small capability subsets below.
 
-The release is
+The model is published at
 [takanori-ishikawa/GLM-4.7-Flash-Abliterated-UD-Q4_K_XL-GGUF](https://huggingface.co/takanori-ishikawa/GLM-4.7-Flash-Abliterated-UD-Q4_K_XL-GGUF).
-The [model card](hf/README.md) lists its filename, size and SHA-256
+The [model card](hf/README.md) lists its filename, size and SHA-256.
 
 ## Results and selection
 
@@ -26,14 +26,14 @@ Q4_K_M, revision `2d925ab0fdaa279a87485f4786ca22661bf030b2`, derived from
 [huihui-ai/Huihui-GLM-4.7-Flash-abliterated](https://huggingface.co/huihui-ai/Huihui-GLM-4.7-Flash-abliterated).
 `layer24-k1` removes the L24 residual direction without biprojection or norm
 preservation; `final` adds both. The two quantizations differ between the
-Unsloth and huihui-ai baselines
+Unsloth and huihui-ai baselines.
 
 The final variant is comparable to huihui-ai on this HarmBench subset: 91 versus
 92 compliant answers, with 6 and 5 examples where only one model complies.
 This does not establish an improvement over huihui-ai. Capability scores replace
 initial 16K truncations with 32K regenerations, keep all 50 examples in each
 denominator, and count the final model's one remaining MMLU-Pro truncation as
-incorrect. See [aggregate results and counting rules](results/README.md)
+incorrect. See [aggregate results and counting rules](results/README.md).
 
 Direction layers and strengths were compared on HarmBench. At strength 1, the
 layer comparison gives:
@@ -51,7 +51,7 @@ per-layer directions gave 37 / 13 / 0; L24 biprojection plus norm preservation
 45 / 5 / 0; restricting that edit to layers 11–40 gave 45 / 4 / 1. The all-layer
 biprojection variant is the final recipe. HarmBench is not an untouched holdout,
 and the generated held-out set participates in method selection. These small
-sets do not establish broad capability or safety guarantees
+sets do not establish broad capability or safety guarantees.
 
 ### Other variants
 
@@ -69,19 +69,18 @@ selection criteria for replacing the final recipe:
 
 Run commands from this repository root. The reference machine is an M4 Pro Mac
 mini with 64 GB RAM. Times below are recorded run intervals on that machine,
-including orchestration overhead; they are not estimates of pure kernel time
+including orchestration overhead; they are not estimates of pure kernel time.
 
 The fixed editing conditions are zero-based L24, `resid_mean`, all 47 main
 layers plus `token_embd`, BF16 source matrices, `k=1`, `--embd-k 1`, biprojection,
 norm preservation and two fixed-target quantization iterations. MTP layers are
 excluded. Edited tensors retain their original GGUF types; no external
-importance matrix is supplied. Unedited bytes remain unchanged
+importance matrix is supplied. Unedited bytes remain unchanged.
 
 ### 1. Prepare dependencies and model inputs
 
-Input: Python 3.12+, uv, a separately installed `hf` CLI, and the pinned model
-repositories below. Output: a Python environment, the original GGUF and 3039
-selected BF16 matrices plus metadata. Acquisition time is not recorded
+With Python 3.12+, uv and a separately installed `hf` CLI, fetch the original
+GGUF, metadata and 3039 selected BF16 matrices. Acquisition time is not recorded.
 
 ```sh
 uv sync --frozen
@@ -116,16 +115,16 @@ uv run --frozen python scripts/bf16_fetch.py \
 
 The fetcher uses validated HTTP ranges rather than downloading every BF16
 shard. The selected matrices cover 141 GGUF tensors after expert expansion.
-Keep source, BF16 and edited directories separate
+Keep source, BF16 and edited directories separate.
 
 Shortcut: the supplied `artifacts/` archives let you skip steps 3 and 4. Keep
 `DIRECTION_DIR` as set above and continue from the library build to step 5;
-BF16 inputs and the original GGUF are still required
+BF16 inputs and the original GGUF are still required.
 
 ### 2. Build the pinned llama.cpp fork
 
-Input: the public fork source. Output: shared libraries, llama-server and the
-collector binary. Build time is not recorded
+Build the fork's shared libraries, llama-server and collector. Build time is
+not recorded.
 
 ```sh
 git clone https://github.com/ishikawa/llama.cpp.git _work/llama.cpp
@@ -151,17 +150,17 @@ commit `5c4fc1a68`; the public
 [ddf120c50](https://github.com/ishikawa/llama.cpp/commit/ddf120c50a8acfbf873c16cb070c2b5e4bb6a2fe)
 is its immediate successor and adds only an attention-output callback name,
 without changing computation. The collector needs that name before the final
-layer crop. See [collector documentation](tools/activation-collect/README.md)
+layer crop. See [collector documentation](tools/activation-collect/README.md).
 
 With the artifact shortcut, only llama.cpp's libraries/server are needed; the
-collector build is optional
+collector build is optional.
 
 ### 3. Collect original-model activations
 
-Input: the original GGUF and four frozen direction splits. Output: one manifest
-and four NPY arrays per split under `ACTIVATION_DIR`. Recorded intervals are
-45 seconds for harmful fit, 46 seconds for benign fit, and 12 seconds for each
-held-out split, about 1 minute 55 seconds total
+Collect the original GGUF’s activations for all four direction splits into
+`ACTIVATION_DIR`, with a manifest and four NPY arrays per split. Recorded times:
+45 seconds for harmful fit, 46 for benign fit and 12 for each held-out split,
+about 1 minute 55 seconds total.
 
 ```sh
 for split in harmful_fit benign_fit harmful_heldout benign_heldout; do
@@ -176,12 +175,12 @@ done
 
 The collector uses the embedded chat template, common default thinking and
 Unix epoch template time, and captures the last input token at all 47 layers.
-With the artifact shortcut, skip this step entirely
+With the artifact shortcut, skip this step entirely.
 
 ### 4. Fit directions and benign means
 
-Input: completed activations for the four splits. Output: two NPZ archives and
-a validation report. Fit time is not recorded
+Fit two NPZ archives and a validation report from the four completed activation
+splits. Fit time is not recorded.
 
 ```sh
 export DIRECTION_DIR="$PWD/_work/directions"
@@ -198,13 +197,12 @@ uv run --frozen python scripts/direction_fit.py \
 
 Fit means use only fit records. Held-out records measure separation. With the
 artifact shortcut, skip this step and keep `DIRECTION_DIR="$PWD/artifacts"`.
-See [artifact array metadata and hashes](artifacts/README.md)
+See [artifact array metadata and hashes](artifacts/README.md).
 
 ### 5. Edit and requantize
 
-Input: the original GGUF, selected BF16 matrices, GLM config, direction and benign
-mean archives, and libggml-base. Output: the edited GGUF and an edit report.
-The recorded interval is about 17 minutes 13 seconds
+Use the BF16 matrices, GLM config, direction archives and libggml-base to edit
+the original GGUF and write a report. Recorded time: about 17 minutes 13 seconds.
 
 ```sh
 uv run --frozen python scripts/direction_edit.py \
@@ -225,17 +223,17 @@ The source filename remains `GLM-4.7-Flash-UD-Q4_K_XL.gguf` in `EDIT_DIR`.
 The release upload uses the filename in the model card. APFS cloning is the
 default; add `--allow-copy` on filesystems without clone support. Do not reuse
 an output directory for a different edit. The artifact shortcut enters here
-with the supplied archives
+with the supplied archives.
 
 ### 6. Generate evaluations
 
-Input: the edited GGUF and frozen evaluation data. Output: per-run results and
-summaries under `RUN_DIR`. Recorded intervals are about 39 minutes for harmful
-held-out, 1 hour 25 minutes 48 seconds for HarmBench, and 1 hour 39 minutes
-47 seconds for GSM8K plus MMLU-Pro at 16K
+Evaluate the edited GGUF on the frozen data, saving results and summaries under
+`RUN_DIR`. Recorded times: about 39 minutes for harmful held-out, 1 hour
+25 minutes 48 seconds for HarmBench and 1 hour 39 minutes 47 seconds for GSM8K
+plus MMLU-Pro at 16K.
 
 Start the foreground server in a separate terminal with the same exported
-variables, or set the model path explicitly there. The caller owns its lifecycle
+variables, or set the model path explicitly there. The caller owns its lifecycle.
 
 ```sh
 GLM47_MODEL="$EDIT_DIR/GLM-4.7-Flash-UD-Q4_K_XL.gguf" \
@@ -267,13 +265,13 @@ For a full collection run, add
 held-out command for collector input-hash validation. Without it, the shortcut
 validates the frozen record count and identifiers. Client requests explicitly
 set temperature 1.0, top-p 0.95, top-k 20 and min-p 0. The server uses context
-65536, one slot, no speculation and Jinja. No separate thinking budget is set
+65536, one slot, no speculation and Jinja. No separate thinking budget is set.
 
 ### 7. Regenerate only truncated capability examples at 32K
 
-Input: the 16K capability results. Output: a local identifier file, replacement
-results and aggregate capability counts. Four final-model examples require
-regeneration; the recorded interval is about 54 minutes 41 seconds
+Select truncated 16K capability results, regenerate them and merge the counts.
+Four final-model examples require regeneration. Recorded time: about 54 minutes
+41 seconds.
 
 ```sh
 uv run --frozen python - <<'PY'
@@ -312,15 +310,14 @@ PY
 If no examples are truncated, skip the 32K run and use the initial counts.
 The replacement logic keeps one result per example and includes remaining
 truncations as incorrect. Runtime result files stay local; the repository's
-`results/` contains aggregates only
+`results/` contains aggregates only.
 
 ### 8. Judge HarmBench and harmful held-out
 
-Input: final-answer generations and the pinned classifier. Output:
-`judge_cls_run.json`, `judge_cls.jsonl` and `judge_cls_summary.json` in each run.
-Recorded judging intervals are about 3 minutes 10 seconds for held-out and
-5 minutes 46 seconds from classifier readiness for HarmBench; classifier
-acquisition time is not recorded
+Judge final answers with the pinned classifier, saving `judge_cls_run.json`,
+`judge_cls.jsonl` and `judge_cls_summary.json` per run. Recorded times: about
+3 minutes 10 seconds for held-out and 5 minutes 46 seconds from classifier
+readiness for HarmBench. Classifier acquisition time is not recorded.
 
 Stop the GLM server before starting the classifier on the same port. Download:
 
@@ -348,12 +345,11 @@ for split in heldout harmbench; do
 done
 ```
 
-Only final answers are passed to the classifier. Generation text is clipped to
-511 classifier-tokenizer tokens with `add_special=false`: this is the
-implementation's upper limit. The request predicts one token at temperature 0
-with prompt caching disabled. No claim about a 512-token total context limit
-is implied. The supplied artifacts change only steps 3–4; evaluation and judging
-remain the same
+Only final answers are judged. [HarmBench's official evaluator](https://github.com/centerforaisafety/HarmBench/blob/main/evaluate_completions.py)
+uses `tokenizer.encode(generation, max_length=512, truncation=True)` with the
+Llama-2 tokenizer's default BOS, leaving 511 text tokens. This implementation
+matches it with `add_special=false` and a 511-token text limit, then predicts
+one token at temperature 0 with prompt caching disabled.
 
 ## Repository and development
 
@@ -368,7 +364,7 @@ remain the same
 | `tests/` | Offline synthetic Python tests |
 
 The project runs scripts directly and is not installed as a Python package.
-See [tool defaults](scripts/README.md) for optional settings
+See [tool defaults](scripts/README.md) for optional settings.
 
 ```sh
 uv sync --frozen
@@ -380,23 +376,16 @@ uv run --frozen pytest
 CI uses Python 3.12. Tests requiring libggml-base skip when `GGML_BASE_LIB` is
 unset, including in CI. Set it to a matching CPU quantization library to include
 those tests; they use synthetic matrices and GGUF files without model loading
-or GPU initialization. Collector tests run separately through ctest
+or GPU initialization. Collector tests run separately through ctest.
 
-The publication script requires a separately installed `hf` CLI, with its upload
-and repos-create commands. It does not add a Python Hub dependency to this
-project. Preview the exact four-file upload plan without invoking `hf` or reading
-credentials:
+Preview the upload plan below; `--yes` creates the repository and uploads the
+validated release. See [publication details](scripts/README.md#publication)
+for validation, CLI requirements and options:
 
 ```sh
 uv run --frozen python scripts/hf_publish.py \
   "$EDIT_DIR/GLM-4.7-Flash-UD-Q4_K_XL.gguf"
 ```
-
-It checks the local GGUF size and SHA-256 against `hf/README.md`. A missing GGUF
-only warns in dry-run; a present mismatched file fails. `--yes` first requires a
-verified file, then creates the model repository if needed and uploads that file
-plus `hf/README.md`, `hf/LICENSE` and `hf/NOTICE`. `--repo-id` selects a different
-destination. Authentication is delegated to the installed CLI
 
 ## License
 
@@ -405,4 +394,4 @@ base model's declared MIT license; see [hf/LICENSE](hf/LICENSE) and
 [hf/NOTICE](hf/NOTICE). Evaluation data retain their recorded MIT or CC-BY-4.0
 licenses. The generated prompt manifest does not record a separate data license
 grant. [NOTICE](NOTICE) and [data provenance](data/README.md) describe these
-separate sources
+separate sources.

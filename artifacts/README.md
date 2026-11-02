@@ -2,7 +2,7 @@
 
 These two archives allow editing without repeating activation collection and
 fitting. They use the original GLM-4.7-Flash activations from the four frozen
-splits in `data/direction/`
+splits in `data/direction/`.
 
 | File | SHA-256 |
 | --- | --- |
@@ -21,7 +21,7 @@ the following float32 arrays, with zero-based layer indices:
 In `directions.npz`, each row is the unit-normalized harmful fit mean minus
 benign fit mean. In `benign_means.npz`, each row is the unnormalized benign fit
 mean used for biprojection. Held-out records contribute only to validation
-statistics, not either fit mean. No massive-activation mask is enabled
+statistics, not either fit mean. No massive-activation mask is enabled.
 
 After collecting each split into the directories below, regenerate with:
 
@@ -41,10 +41,10 @@ output paths. The original activation manifests identify 200 harmful and 200
 benign fit records, with 50 records in each held-out split. The supplied arrays
 were checked for exact equality against a CPU rerun of this command using those
 activations. Whether the benign means archive was first written alongside the
-directions or in a later fit invocation is not recorded
+directions or in a later fit invocation is not recorded.
 
 The selected editing direction is `resid_mean[24]`. The original-model collection
 used the quantized baseline, profile `glm47`, context 8192, microbatch 2048 and
 eight CPU threads, with the embedded chat template and Unix epoch template time.
 See [the collector](../tools/activation-collect/README.md) for build and collection
-instructions and [the frozen data](../data/README.md) for split provenance
+instructions and [the frozen data](../data/README.md) for split provenance.

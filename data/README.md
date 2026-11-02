@@ -2,7 +2,7 @@
 
 Use these files for reproducible direction fitting and evaluation. JSONL payloads
 are byte-for-byte frozen; the manifests record counts and SHA-256 hashes. The
-manifest path `eval_dir` is relative to the repository root
+manifest path `eval_dir` is relative to the repository root.
 
 ## Direction data
 
@@ -18,7 +18,7 @@ The prompts were generated with Qwen3.8-Flash-Next and its uncensored variant.
 The recorded served names are `qwen3.8-flash-next-uncensored` for harmful
 candidates and `qwen3.8-flash-next` for benign candidates and filtering. The
 manifest does not pin model revisions or declare a separate license for these
-generated prompts; no model-weight license is asserted as a data license here
+generated prompts; no model-weight license is asserted as a data license here.
 
 `scripts/direction_prompts.py` implements the preparation process:
 
@@ -29,12 +29,12 @@ generated prompts; no model-weight license is asserted as a data license here
 5. Shuffle each group with `split:20261027:<kind>` and select 200 fit plus 50 held-out records, sorting each output by identifier
 
 The split seed is 20261027. The frozen files are the reproducible inputs;
-regenerating prompts with a served model does not guarantee identical text
+regenerating prompts with a served model does not guarantee identical text.
 
 ## Evaluation data
 
 All five subsets use selection seed 407 and were retrieved on 2026-10-26 UTC.
-The manifests preserve the source URLs, declared licenses and sample metadata
+The manifests preserve the source URLs, declared licenses and sample metadata.
 
 | File under `refusal/` | Records | Use | Source | Recorded license |
 | --- | ---: | --- | --- | --- |
@@ -49,7 +49,7 @@ These are normalized subsets of the linked datasets. XSTest attribution is to
 the linked source repository; its prompts are redistributed under the recorded
 CC-BY-4.0 license. Source fields are normalized into the common JSONL schema and
 capability inputs include final-answer format instructions. No new license is
-inferred for the evaluation datasets
+inferred for the evaluation datasets.
 
 `scripts/refusal_prep.py` selects the subsets as follows:
 
@@ -71,4 +71,4 @@ A new retrieval may differ from these frozen files. XSTest remains included
 because direction-data preparation excludes overlaps against the complete
 350-record evaluation collection. HarmBench helped select direction layers and
 strengths; it is not an untouched holdout. Editing methods were compared on the
-50 harmful direction held-out records
+50 harmful direction held-out records.

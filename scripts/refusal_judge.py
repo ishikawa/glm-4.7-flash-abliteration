@@ -94,7 +94,10 @@ def load_questions(rows, source_run):
     return questions
 
 
-# Keep 511 generation tokens before requesting one classifier output token.
+# https://github.com/centerforaisafety/HarmBench/blob/main/evaluate_completions.py
+# HarmBench encodes generation with max_length=512,
+# truncation=True and Llama-2's default BOS: 511 text tokens. Match that here
+# with add_special=False, then request one classifier output token.
 CLS_GENERATION_TOKENS = 511
 
 
