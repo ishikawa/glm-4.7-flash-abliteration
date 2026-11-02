@@ -27,22 +27,12 @@ similar scores to the original on the small GSM8K and MMLU-Pro subsets below.
 
 ## Running
 
-Use upstream [llama.cpp](https://github.com/ggml-org/llama.cpp), which supports
-GLM-4.7-Flash. Set `LLAMA_CPP_DIR` to its source/build directory.
+The file differs from Unsloth's UD-Q4_K_XL only in the values of the edited
+tensors; the GGUF metadata, tensor types and chat template are unchanged. It
+runs in any GGUF runtime that supports GLM-4.7-Flash.
 
-```sh
-hf download takanori-ishikawa/GLM-4.7-Flash-Abliterated-UD-Q4_K_XL-GGUF \
-  GLM-4.7-Flash-Abliterated-UD-Q4_K_XL.gguf --local-dir models
-
-"$LLAMA_CPP_DIR/build/bin/llama-server" \
-  -m models/GLM-4.7-Flash-Abliterated-UD-Q4_K_XL.gguf \
-  -ngl 99 -c 65536 --jinja
-```
-
-Use the server's OpenAI-compatible API at `http://127.0.0.1:8080/v1`.
-Thinking follows the embedded chat template. Long reasoning can exhaust the
-output limit; the evaluation uses 16K output tokens and regenerates only
-truncated capability examples with a 32K limit.
+Long reasoning can exhaust the output limit; the evaluation uses 16K output
+tokens and regenerates only truncated capability examples with a 32K limit.
 
 ## Evaluation
 
