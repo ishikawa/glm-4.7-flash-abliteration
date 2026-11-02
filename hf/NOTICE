@@ -1,0 +1,18 @@
+GLM-4.7-Flash Abliterated UD-Q4_K_XL GGUF
+
+This model is a derivative of zai-org/GLM-4.7-Flash
+(https://huggingface.co/zai-org/GLM-4.7-Flash), declared MIT in its model-card
+metadata. See LICENSE for the standard MIT text and author attribution.
+
+The quantized tensors come from unsloth/GLM-4.7-Flash-GGUF
+(https://huggingface.co/unsloth/GLM-4.7-Flash-GGUF), UD-Q4_K_XL.
+
+The refusal direction is estimated from GLM-4.7-Flash activations on generated
+harmful and benign prompts. The generation manifest identifies the served
+models as qwen3.8-flash-next-uncensored (harmful generation) and
+qwen3.8-flash-next (benign generation and filtering). It does not record model
+revisions or a separate license grant for the generated prompts.
+
+Direction preparation excludes overlaps against HarmBench (MIT), GSM8K (MIT),
+MMLU-Pro (MIT) and XSTest (CC-BY-4.0). Provenance and the frozen data are available
+at https://github.com/ishikawa/glm-4.7-flash-abliteration.
