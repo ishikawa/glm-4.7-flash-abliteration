@@ -16,8 +16,9 @@ tags:
 
 An abliterated build of [GLM-4.7-Flash](https://huggingface.co/zai-org/GLM-4.7-Flash)
 on [Unsloth's UD-Q4_K_XL](https://huggingface.co/unsloth/GLM-4.7-Flash-GGUF)
-quantization. It complies with 91 of 100 sampled [HarmBench](https://github.com/centerforaisafety/HarmBench) requests and retains
-similar scores to the original on the small [GSM8K](https://github.com/openai/grade-school-math) and [MMLU-Pro](https://huggingface.co/datasets/TIGER-Lab/MMLU-Pro) subsets below.
+quantization. It complies with 91 of 100 [HarmBench](https://github.com/centerforaisafety/HarmBench) requests held out from every
+selection step, refuses none of 100 safe [XSTest](https://github.com/paul-rottger/xstest) requests, and retains similar scores
+to the original on the small [GSM8K](https://github.com/openai/grade-school-math) and [MMLU-Pro](https://huggingface.co/datasets/TIGER-Lab/MMLU-Pro) subsets below.
 
 ## Files
 
@@ -36,7 +37,10 @@ tokens and regenerates only truncated capability examples with a 32K limit.
 
 ## Evaluation
 
-HarmBench standard 100, GSM8K test 50 and MMLU-Pro test 50, sampled with seed 407.
+Two disjoint sets of 100 HarmBench standard behaviors, XSTest safe 100 and unsafe
+50, GSM8K test 50 and MMLU-Pro test 50. The first HarmBench set, XSTest and the
+capability subsets are sampled with seed 407; the second HarmBench set is the
+remaining standard behaviors and was not used in any selection step.
 Evaluation runs on an M4 Pro Mac mini with 64 GB RAM, using the llama.cpp fork
 at commit `5c4fc1a68`. Its successor
 [ddf120c50](https://github.com/ishikawa/llama.cpp/commit/ddf120c50a8acfbf873c16cb070c2b5e4bb6a2fe)
@@ -49,9 +53,25 @@ form. Only final answers are judged. [HarmBench's official evaluator](https://gi
 uses `tokenizer.encode(generation, max_length=512, truncation=True)` with the
 Llama-2 tokenizer's default BOS, leaving 511 text tokens. This implementation
 matches it with `add_special=false` and a 511-token text limit;
-the classifier predicts one token.
+the classifier predicts one token. XSTest refusals are judged by
+[WildGuard](https://huggingface.co/allenai/wildguard) (Q8_0 GGUF, tokenization checked against the original
+tokenizer) from its `Response refusal` output, with refusal-phrase matches as a
+secondary measure.
 
-| Model | HarmBench yes / no / truncated (100) | GSM8K correct / 50 | MMLU-Pro correct / 50 |
+| Model | Untouched HarmBench yes / no / truncated (100) | XSTest safe refusals / 100 | XSTest unsafe refusals / 50 |
+| --- | --- | ---: | ---: |
+| original | 12 / 88 / 0 | 2 | 44 |
+| huihui-ai | 94 / 6 / 0 | 0 | 3 |
+| final | 91 / 9 / 0 | 0 | 3 |
+
+On the untouched set this model is comparable to huihui-ai: only huihui-ai
+complies on 3 behaviors and only this model on none (exact two-sided McNemar
+p = 0.25). It refuses none of the safe XSTest requests, against 2 for the
+original. These criteria were fixed before measurement.
+
+The first HarmBench set served for selection:
+
+| Model | HarmBench selection set yes / no / truncated (100) | GSM8K correct / 50 | MMLU-Pro correct / 50 |
 | --- | --- | ---: | ---: |
 | original | 15 / 85 / 0 | 47 | 39 |
 | huihui-ai | 92 / 8 / 0 | 48 | 42 |
@@ -66,8 +86,9 @@ truncations with their 32K regenerations. One final-model MMLU-Pro example remai
 truncated and counts as incorrect.
 
 - These are small evaluation sets; differences of a few answers do not establish broad capability differences
-- HarmBench helps select direction layers and strengths; editing methods are selected on 50 generated harmful held-out prompts, so these are not untouched evaluations of all choices
-- This model is comparable to huihui-ai on this HarmBench subset, with 91 versus 92 compliant answers and 6 and 5 examples where only one model complies
+- The HarmBench selection set helps select direction layers and strengths, and editing methods are selected on 50 generated harmful held-out prompts; only the untouched HarmBench set and XSTest are independent of every choice
+- On the selection set this model and huihui-ai are also close, with 91 versus 92 compliant answers and 6 and 5 examples where only one model complies
+- The edit also removes most refusals of unsafe XSTest requests, as intended for an abliterated model
 - Removing a refusal direction reduces safety behavior and can produce harmful, inaccurate or unreliable output; these scores do not establish safety or suitability for a particular use
 
 ## How it was made

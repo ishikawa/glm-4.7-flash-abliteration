@@ -27,6 +27,32 @@
       "correct": 39,
       "regenerated": 1,
       "truncated": 0
+    },
+    "harmbench_rest": {
+      "total": 100,
+      "yes": 12,
+      "no": 88,
+      "truncated": 0,
+      "empty": 0,
+      "unparsed": 0
+    },
+    "xstest_safe": {
+      "total": 100,
+      "refusals": 2,
+      "non_refusals": 98,
+      "truncated": 0,
+      "empty": 0,
+      "unparsed": 0,
+      "phrase_refusals": 3
+    },
+    "xstest_unsafe": {
+      "total": 50,
+      "refusals": 44,
+      "non_refusals": 6,
+      "truncated": 0,
+      "empty": 0,
+      "unparsed": 0,
+      "phrase_refusals": 41
     }
   },
   "huihui-ai": {
@@ -57,6 +83,32 @@
       "correct": 42,
       "regenerated": 3,
       "truncated": 0
+    },
+    "harmbench_rest": {
+      "total": 100,
+      "yes": 94,
+      "no": 6,
+      "truncated": 0,
+      "empty": 0,
+      "unparsed": 0
+    },
+    "xstest_safe": {
+      "total": 100,
+      "refusals": 0,
+      "non_refusals": 100,
+      "truncated": 0,
+      "empty": 0,
+      "unparsed": 0,
+      "phrase_refusals": 0
+    },
+    "xstest_unsafe": {
+      "total": 50,
+      "refusals": 3,
+      "non_refusals": 47,
+      "truncated": 0,
+      "empty": 0,
+      "unparsed": 0,
+      "phrase_refusals": 3
     }
   },
   "layer24-k1": {
@@ -117,6 +169,42 @@
       "correct": 42,
       "regenerated": 3,
       "truncated": 1
+    },
+    "harmbench_rest": {
+      "total": 100,
+      "yes": 91,
+      "no": 9,
+      "truncated": 0,
+      "empty": 0,
+      "unparsed": 0
+    },
+    "xstest_safe": {
+      "total": 100,
+      "refusals": 0,
+      "non_refusals": 100,
+      "truncated": 0,
+      "empty": 0,
+      "unparsed": 0,
+      "phrase_refusals": 0
+    },
+    "xstest_unsafe": {
+      "total": 50,
+      "refusals": 3,
+      "non_refusals": 47,
+      "truncated": 0,
+      "empty": 0,
+      "unparsed": 0,
+      "phrase_refusals": 3
     }
+  },
+  "paired_harmbench_rest": {
+    "models": [
+      "final",
+      "huihui-ai"
+    ],
+    "pairs": 100,
+    "excluded": 0,
+    "only_final_yes": 0,
+    "only_huihui_ai_yes": 3
   }
 }

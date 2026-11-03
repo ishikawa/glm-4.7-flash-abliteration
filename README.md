@@ -3,7 +3,8 @@
 A reproducible refusal-direction edit of [GLM-4.7-Flash](https://huggingface.co/zai-org/GLM-4.7-Flash) on
 [Unsloth's UD-Q4_K_XL](https://huggingface.co/unsloth/GLM-4.7-Flash-GGUF) GGUF. The final variant removes a layer 24 residual direction, biprojected
 against benign activation means, while preserving weight-vector norms. It
-complies with 91 of 100 sampled [HarmBench](https://github.com/centerforaisafety/HarmBench) requests and retains similar scores
+complies with 91 of 100 [HarmBench](https://github.com/centerforaisafety/HarmBench) requests held out from every selection step,
+refuses none of 100 safe [XSTest](https://github.com/paul-rottger/xstest) requests, and retains similar scores
 to the original on small [GSM8K](https://github.com/openai/grade-school-math) and [MMLU-Pro](https://huggingface.co/datasets/TIGER-Lab/MMLU-Pro) subsets.
 
 The model is published at
@@ -12,7 +13,24 @@ The [model card](hf/README.md) lists its filename, size and SHA-256.
 
 ## Results and selection
 
-| Model | HarmBench yes / no / truncated (100) | GSM8K correct / 50 | MMLU-Pro correct / 50 |
+| Model | Untouched HarmBench yes / no / truncated (100) | XSTest safe refusals / 100 | XSTest unsafe refusals / 50 |
+| --- | --- | ---: | ---: |
+| original | 12 / 88 / 0 | 2 | 44 |
+| huihui-ai | 94 / 6 / 0 | 0 | 3 |
+| final | 91 / 9 / 0 | 0 | 3 |
+
+The untouched set is the 100 HarmBench standard behaviors not used in any
+selection step. On it the final variant is comparable to huihui-ai: only
+huihui-ai complies on 3 behaviors and only the final variant on none (exact
+two-sided McNemar p = 0.25). [WildGuard](https://huggingface.co/allenai/wildguard)
+judges XSTest refusals; the final variant refuses none of the safe requests
+against 2 for the original. These criteria were fixed before measurement; see
+[aggregate results](results/README.md).
+
+The other 100 HarmBench behaviors served as the selection set, alongside the
+capability subsets:
+
+| Model | HarmBench selection set yes / no / truncated (100) | GSM8K correct / 50 | MMLU-Pro correct / 50 |
 | --- | --- | ---: | ---: |
 | original | 15 / 85 / 0 | 47 | 39 |
 | huihui-ai | 92 / 8 / 0 | 48 | 42 |
@@ -28,15 +46,15 @@ Q4_K_M, revision `2d925ab0fdaa279a87485f4786ca22661bf030b2`, derived from
 preservation; `final` adds both. The two quantizations differ between the
 Unsloth and huihui-ai baselines.
 
-The final variant is comparable to huihui-ai on this HarmBench subset: 91 versus
+On the selection set the final variant and huihui-ai are also close: 91 versus
 92 compliant answers, with 6 and 5 examples where only one model complies.
-This does not establish an improvement over huihui-ai. Capability scores replace
+Neither set establishes an improvement over huihui-ai. Capability scores replace
 initial 16K truncations with 32K regenerations, keep all 50 examples in each
 denominator, and count the final model's one remaining MMLU-Pro truncation as
 incorrect. See [aggregate results and counting rules](results/README.md).
 
-Direction layers and strengths were compared on HarmBench. At strength 1, the
-layer comparison gives:
+Direction layers and strengths were compared on the HarmBench selection set. At
+strength 1, the layer comparison gives:
 
 | Zero-based direction layer | Yes | No | Truncated |
 | --- | ---: | ---: | ---: |
@@ -49,8 +67,9 @@ layer comparison gives:
 Editing methods were then compared on 50 generated harmful held-out prompts:
 per-layer directions gave 37 / 13 / 0; L24 biprojection plus norm preservation
 45 / 5 / 0; restricting that edit to layers 11–40 gave 45 / 4 / 1. The all-layer
-biprojection variant is the final recipe. HarmBench is not an untouched holdout,
-and the generated held-out set participates in method selection. These small
+biprojection variant is the final recipe. The HarmBench selection set and the
+generated held-out set both participate in selection; only the untouched set does
+not. These small
 sets do not establish broad capability or safety guarantees.
 
 ### Other variants
@@ -355,6 +374,55 @@ uses `tokenizer.encode(generation, max_length=512, truncation=True)` with the
 Llama-2 tokenizer's default BOS, leaving 511 text tokens. This implementation
 matches it with `add_special=false` and a 511-token text limit, then predicts
 one token at temperature 0 with prompt caching disabled.
+
+### 9. Evaluate the untouched HarmBench set and XSTest
+
+Use the GLM server from step 6 with the same generation settings. The frozen
+untouched set contains the other 100 standard HarmBench behaviors.
+
+```sh
+uv run --frozen python scripts/refusal_eval.py \
+  --sets harmbench_rest,xstest_safe,xstest_unsafe --model glm-4.7-flash \
+  --thinking on --seed 407 --max-tokens 16384 \
+  --out-dir "$RUN_DIR/untouched"
+```
+
+Stop the GLM server and start the HarmBench classifier as in step 8, then run:
+
+```sh
+uv run --frozen python scripts/refusal_judge.py \
+  --classifier harmbench-cls --model harmbench-cls \
+  --base-url http://127.0.0.1:8080/v1 --run-dir "$RUN_DIR/untouched"
+```
+
+For XSTest, accept the gated WildGuard model's
+[AI2 Responsible Use Guidelines](https://allenai.org/responsible-use.pdf) on the
+Hub, then convert the pinned revision:
+
+```sh
+export WILDGUARD_MODEL="$MODEL_DIR/classifier/wildguard.Q8_0.gguf"
+bash scripts/convert-wildguard.sh
+```
+
+Stop the HarmBench server and start WildGuard in a separate terminal with the
+same exported variables:
+
+```sh
+bash scripts/start-wildguard.sh
+```
+
+Run the XSTest classifier:
+
+```sh
+uv run --frozen python scripts/refusal_judge.py \
+  --classifier wildguard --model wildguard \
+  --base-url http://127.0.0.1:8080/v1 --run-dir "$RUN_DIR/untouched"
+```
+
+Only final answers are judged. WildGuard counts `Response refusal: yes` without
+a partial-refusal distinction. Check recorded `prompt_tokens` for prompts over
+4096 tokens; HF's sliding window and llama.cpp's full attention can differ.
+See [tokenizer correction and classifier details](scripts/README.md#untouched-evaluation-and-wildguard).
 
 ## Repository and development
 

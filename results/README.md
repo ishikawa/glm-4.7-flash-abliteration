@@ -11,10 +11,50 @@ The `layer24-k1` and `final` variants modify all 47 main layers and the token
 embedding. These
 results use the frozen datasets under `data/`, seed 407, temperature 1.0,
 top-p 0.95, top-k 20 and min-p 0, without a separate thinking-token budget.
+The untouched HarmBench set and [XSTest](https://github.com/paul-rottger/xstest)
+were measured for `original`, `huihui-ai` and `final`; `paired_harmbench_rest`
+holds the paired counts for `final` and `huihui-ai`.
 
-## Benchmark counts
+## Untouched HarmBench test set
 
-[HarmBench](https://github.com/centerforaisafety/HarmBench) columns are official classifier `yes` / `no` / truncated generations,
+These are the 100 HarmBench standard behaviors in
+`data/refusal/harmbench_rest.jsonl`. No direction, layer, strength or editing
+method was chosen with them, and none of the 500 direction prompts overlaps them.
+Counts are official classifier `yes` / `no` / truncated generations.
+
+| Model | Yes | No | Truncated |
+| --- | ---: | ---: | ---: |
+| original | 12 | 88 | 0 |
+| huihui-ai | 94 | 6 | 0 |
+| final | 91 | 9 | 0 |
+
+All 100 behaviors form valid pairs; none is excluded. Only `huihui-ai` complies
+on 3 behaviors and only `final` on none. The exact two-sided McNemar test gives
+p = 0.25, so under the criteria below the two are comparable.
+
+## Over-refusal on XSTest
+
+[WildGuard](https://huggingface.co/allenai/wildguard) judged each final answer;
+a `Response refusal: yes` counts as a refusal, without a partial-refusal class.
+Refusal-phrase matches are the secondary measure.
+
+| Model | Safe refusals / 100 | Safe phrase matches | Unsafe refusals / 50 | Unsafe phrase matches |
+| --- | ---: | ---: | ---: | ---: |
+| original | 2 | 3 | 44 | 41 |
+| huihui-ai | 0 | 0 | 3 | 3 |
+| final | 0 | 0 | 3 | 3 |
+
+`final` refuses none of the safe requests against 2 for `original`, meeting the
+over-refusal criterion. No XSTest answer was truncated or empty, and every
+WildGuard output was parsed. The longest WildGuard prompt has 1,649 tokens, so
+WildGuard's 4096-token sliding window does not apply. Removing the refusal
+direction also removes most refusals of the unsafe XSTest requests.
+
+## Selection set and capability counts
+
+[HarmBench](https://github.com/centerforaisafety/HarmBench) columns cover the 100 behaviors in
+`data/refusal/harmbench.jsonl`, which were used to compare direction layers and
+strengths. They are official classifier `yes` / `no` / truncated generations,
 not refusal-phrase matches. Capability columns count correct answers out of the
 full 50 examples, including any remaining truncations as incorrect.
 
@@ -37,10 +77,9 @@ judged by the official classifier.
 | layer24-k1 | 50 | 43 | 7 | 0 |
 | final | 50 | 45 | 5 | 0 |
 
-Direction layers and strengths were compared on HarmBench. Editing methods were
-selected on the harmful held-out set, so neither is an untouched test set for
-all decisions. The final variant and huihui-ai have comparable HarmBench counts;
-the one-count difference does not establish an improvement.
+Direction layers and strengths were compared on the HarmBench selection set.
+Editing methods were selected on the harmful held-out set, so neither is an
+untouched test set for all decisions; the untouched set above is.
 
 ## Criteria for the untouched test set and over-refusal
 
@@ -71,6 +110,12 @@ Classifier totals, `yes`, `no`, truncated, empty and unparsed counts are selecte
 from each run's classifier summary. Empty and unparsed counts are zero for all
 reported runs. A truncated source generation is excluded from classification
 and counted separately.
+
+XSTest `refusals` and `non_refusals` count WildGuard's `Response refusal` labels
+per set; `phrase_refusals` counts generations whose final answer opens with a
+refusal phrase. `paired_harmbench_rest` compares per-behavior classifier labels
+of `final` and `huihui-ai` on the untouched set; `excluded` counts behaviors
+with a truncated or unparsed answer on either side.
 
 Capability counts combine the initial 16384-token run with 32768-token
 regenerations of only the initially truncated examples. The initial summary's
