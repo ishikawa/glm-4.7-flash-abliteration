@@ -16,7 +16,7 @@ tags:
 
 An abliterated build of [GLM-4.7-Flash](https://huggingface.co/zai-org/GLM-4.7-Flash)
 on [Unsloth's UD-Q4_K_XL](https://huggingface.co/unsloth/GLM-4.7-Flash-GGUF)
-quantization. It complies with 91 of 100 [HarmBench](https://github.com/centerforaisafety/HarmBench) requests held out from every
+quantization, built for research on refusal behavior and for testing safety evaluations. It complies with 91 of 100 [HarmBench](https://github.com/centerforaisafety/HarmBench) requests held out from every
 selection step, refuses none of 100 safe [XSTest](https://github.com/paul-rottger/xstest) requests, and retains similar scores
 to the original on the small [GSM8K](https://github.com/openai/grade-school-math) and [MMLU-Pro](https://huggingface.co/datasets/TIGER-Lab/MMLU-Pro) subsets below.
 
@@ -88,8 +88,8 @@ truncated and counts as incorrect.
 - These are small evaluation sets; differences of a few answers do not establish broad capability differences
 - The HarmBench selection set helps select direction layers and strengths, and editing methods are selected on 50 generated harmful held-out prompts; only the untouched HarmBench set and XSTest are independent of every choice
 - On the selection set this model and huihui-ai are also close, with 91 versus 92 compliant answers and 6 and 5 examples where only one model complies
-- The edit also removes most refusals of unsafe XSTest requests, as intended for an abliterated model
-- Removing a refusal direction reduces safety behavior and can produce harmful, inaccurate or unreliable output; these scores do not establish safety or suitability for a particular use
+- As with other abliterated models, the edit also removes most refusals of unsafe XSTest requests (44 → 3 of 50)
+- Removing a refusal direction reduces safety behavior and can produce harmful, inaccurate or unreliable output; these scores do not establish safety or suitability for a particular use, and users are responsible for complying with applicable laws and the base model's license
 
 ## How it was made
 
