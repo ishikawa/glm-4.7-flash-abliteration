@@ -33,17 +33,21 @@ regenerating prompts with a served model does not guarantee identical text.
 
 ## Evaluation data
 
-All five subsets use selection seed 407 and were retrieved on 2026-10-26 UTC.
+The original five subsets use selection seed 407 and were retrieved on 2026-10-26 UTC.
 The manifests preserve the source URLs, declared licenses and sample metadata.
 
 | File under `refusal/` | Records | Use | Source | Recorded license |
 | --- | ---: | --- | --- | --- |
 | `harmbench.jsonl` | 100 | Classifier compliance evaluation; direction layer/strength comparison | [HarmBench](https://github.com/centerforaisafety/HarmBench) | MIT |
+| `harmbench_rest.jsonl` | 100 | Untouched HarmBench test set | [HarmBench](https://github.com/centerforaisafety/HarmBench) | MIT |
 | `gsm8k.jsonl` | 50 | Arithmetic capability | [GSM8K](https://github.com/openai/grade-school-math) | MIT |
 | `mmlu_pro.jsonl` | 50 | Multiple-choice capability | [MMLU-Pro](https://huggingface.co/datasets/TIGER-Lab/MMLU-Pro) | MIT |
 | `xstest_safe.jsonl` | 100 | Safe requests and evaluation-overlap exclusion | [XSTest, paul-rottger/xstest](https://github.com/paul-rottger/xstest) | CC-BY-4.0 |
 | `xstest_unsafe.jsonl` | 50 | Unsafe requests and evaluation-overlap exclusion | [XSTest, paul-rottger/xstest](https://github.com/paul-rottger/xstest) | CC-BY-4.0 |
 | `manifest.json` | — | Sources, sampling metadata, counts and hashes | — | Per source above |
+| `manifest_rest.json` | — | Untouched set provenance, selection-manifest hash, counts and hashes | — | MIT |
+
+`manifest_rest.json` records the untouched set separately.
 
 These are normalized subsets of the linked datasets. XSTest attribution is to
 the linked source repository; its prompts are redistributed under the recorded
@@ -54,6 +58,7 @@ inferred for the evaluation datasets.
 `scripts/refusal_prep.py` selects the subsets as follows:
 
 - HarmBench: filter the CSV to `FunctionalCategory == standard`, then select 100 proportionally by `SemanticCategory`
+- HarmBench rest: take the complement of the 100 selected `harmbench.jsonl` records within all 200 standard behaviors
 - XSTest: split by `label` into safe and unsafe, then select 100 and 50 respectively, proportionally by `type`
 - Proportional selection: allocate integer quotas by largest remainder, break equal remainders with a seeded shuffle of sorted categories, and sample within each category using the same seeded generator
 - GSM8K: sample 50 distinct test row indices uniformly with `random.Random(407)`, then sort the selected indices; extract the reference after the final `####`
@@ -68,7 +73,15 @@ python scripts/refusal_prep.py --seed 407 --out-dir _work/new-evaluation-data
 
 The recorded upstream URLs use main/master branches or an unpinned rows API.
 A new retrieval may differ from these frozen files. XSTest remains included
-because direction-data preparation excludes overlaps against the complete
+because direction-data preparation excludes overlaps against the original
 350-record evaluation collection. HarmBench helped select direction layers and
 strengths; it is not an untouched holdout. Editing methods were compared on the
 50 harmful direction held-out records.
+
+The selection caveat above applies to `harmbench.jsonl`. The separate
+`harmbench_rest.jsonl` is an untouched test set: it was not used to fit
+directions, compare direction layers or strengths, or select editing methods.
+All 500 frozen direction prompts (400 fit and 100 held-out) were checked against
+this set using `direction_prompts.overlaps_eval`: normalized exact matching or
+at least half of a candidate's word 8-grams matching the evaluation collection.
+There were zero overlaps.

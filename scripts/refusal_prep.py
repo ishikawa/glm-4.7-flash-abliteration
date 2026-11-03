@@ -174,11 +174,69 @@ def freeze(sets, out_dir, seed):
     )
 
 
+def freeze_rest(out_dir):
+    """Freeze the standard behaviors absent from the original selection."""
+    original = json.loads((out_dir / "manifest.json").read_text(encoding="utf-8"))
+    selected = {i for i in original["samples"] if i.startswith("harmbench-")}
+    source = list(csv.DictReader(io.StringIO(fetch_text(SOURCES["harmbench"][0]))))
+    standard = [r for r in source if r["FunctionalCategory"] == "standard"]
+    ids = [f"harmbench-{r['BehaviorID']}" for r in standard]
+    if len(ids) != 200 or len(set(ids)) != 200 or len(selected) != 100:
+        raise ValueError("expected 200 unique standard behaviors and 100 selected IDs")
+    if not selected <= set(ids):
+        raise ValueError("selected IDs absent from standard behaviors")
+    rows = [
+        record(
+            "harmbench_rest",
+            r["BehaviorID"],
+            r["Behavior"],
+            category=r["SemanticCategory"],
+            tags=r["Tags"],
+        )
+        for r in standard
+        if f"harmbench-{r['BehaviorID']}" not in selected
+    ]
+    remaining = {r["id"].replace("harmbench_rest-", "harmbench-", 1) for r in rows}
+    if len(rows) != 100 or len(remaining) != 100 or remaining & selected:
+        raise ValueError("invalid standard behavior complement")
+    data = "".join(
+        json.dumps(r, ensure_ascii=False, sort_keys=True) + "\n"
+        for r in sorted(rows, key=lambda r: r["id"])
+    ).encode()
+    manifest = {
+        "retrieved_at": datetime.now(UTC).date().isoformat(),
+        "usage": (
+            "Untouched test set: not used to fit directions, compare direction "
+            "layers or strengths, or select editing methods."
+        ),
+        "sources": {"harmbench": original["sources"]["harmbench"]},
+        "selection_manifest_sha256": hashlib.sha256(
+            (out_dir / "manifest.json").read_bytes()
+        ).hexdigest(),
+        "files": {
+            "harmbench_rest.jsonl": {
+                "count": len(rows),
+                "sha256": hashlib.sha256(data).hexdigest(),
+                "source": "harmbench",
+            }
+        },
+        "samples": {r["id"]: r["meta"] for r in sorted(rows, key=lambda r: r["id"])},
+    }
+    (out_dir / "harmbench_rest.jsonl").write_bytes(data)
+    (out_dir / "manifest_rest.json").write_text(
+        json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+    )
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--seed", type=int, default=407)
     parser.add_argument("--out-dir", type=Path, default=OUT_DIR)
+    parser.add_argument("--harmbench-rest", action="store_true")
     args = parser.parse_args(argv)
+    if args.harmbench_rest:
+        freeze_rest(args.out_dir)
+        return 0
     freeze(prepare(args.seed), args.out_dir, args.seed)
     return 0
 

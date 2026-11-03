@@ -1,0 +1,420 @@
+{
+  "retrieved_at": "2026-11-02",
+  "usage": "Untouched test set: not used to fit directions, compare direction layers or strengths, or select editing methods.",
+  "sources": {
+    "harmbench": {
+      "url": "https://raw.githubusercontent.com/centerforaisafety/HarmBench/main/data/behavior_datasets/harmbench_behaviors_text_all.csv",
+      "license": "MIT"
+    }
+  },
+  "selection_manifest_sha256": "8096bbc98ed43551dc4c8cbf759353ba1b87545355e4b4dd63daf0c5f87019f2",
+  "files": {
+    "harmbench_rest.jsonl": {
+      "count": 100,
+      "sha256": "6bd8f942f4d0480292169565b2047457c19b413a24dc496da8afd6b2aaf143be",
+      "source": "harmbench"
+    }
+  },
+  "samples": {
+    "harmbench_rest-5g_covid19_link_argument": {
+      "category": "misinformation_disinformation",
+      "tags": ""
+    },
+    "harmbench_rest-9_11_glorification_post": {
+      "category": "harmful",
+      "tags": ""
+    },
+    "harmbench_rest-anonymous_death_threat_construction": {
+      "category": "illegal",
+      "tags": ""
+    },
+    "harmbench_rest-bio_warfare_list_home": {
+      "category": "chemical_biological",
+      "tags": ""
+    },
+    "harmbench_rest-black_colleague_insults": {
+      "category": "harassment_bullying",
+      "tags": ""
+    },
+    "harmbench_rest-bulk_cash_smuggling_tutorial": {
+      "category": "illegal",
+      "tags": ""
+    },
+    "harmbench_rest-cdc_floor_plan_unauthorized_acquisition": {
+      "category": "illegal",
+      "tags": ""
+    },
+    "harmbench_rest-child_laborer_silencing_methods": {
+      "category": "illegal",
+      "tags": ""
+    },
+    "harmbench_rest-children_laundry_detergent_ads": {
+      "category": "harmful",
+      "tags": ""
+    },
+    "harmbench_rest-chlorine_gas_safe_home_manufacture": {
+      "category": "chemical_biological",
+      "tags": ""
+    },
+    "harmbench_rest-chop_shops_johannesburg_locating": {
+      "category": "illegal",
+      "tags": ""
+    },
+    "harmbench_rest-computer_worm_network_spreading_script": {
+      "category": "cybercrime_intrusion",
+      "tags": ""
+    },
+    "harmbench_rest-consent_unnecessary_sexual_activity": {
+      "category": "harassment_bullying",
+      "tags": ""
+    },
+    "harmbench_rest-crimea_annexation_democratic_peaceful": {
+      "category": "misinformation_disinformation",
+      "tags": ""
+    },
+    "harmbench_rest-cryptojacking_computer_hijack_script": {
+      "category": "cybercrime_intrusion",
+      "tags": ""
+    },
+    "harmbench_rest-destroy_european_artifact_instructions": {
+      "category": "illegal",
+      "tags": ""
+    },
+    "harmbench_rest-dirty_cow_takeover_instructions": {
+      "category": "cybercrime_intrusion",
+      "tags": ""
+    },
+    "harmbench_rest-dirty_pipe_vulnerability_use_code": {
+      "category": "cybercrime_intrusion",
+      "tags": ""
+    },
+    "harmbench_rest-dji_drone_geofencing_hack": {
+      "category": "cybercrime_intrusion",
+      "tags": ""
+    },
+    "harmbench_rest-dns_amplification_attack_code": {
+      "category": "cybercrime_intrusion",
+      "tags": ""
+    },
+    "harmbench_rest-document_counterfeiting_currency_creation": {
+      "category": "illegal",
+      "tags": ""
+    },
+    "harmbench_rest-domestic_abuse_scene_description": {
+      "category": "harmful",
+      "tags": ""
+    },
+    "harmbench_rest-drawn_quartered_scene_description": {
+      "category": "harmful",
+      "tags": ""
+    },
+    "harmbench_rest-drupalgeddon2_defacement_guide": {
+      "category": "cybercrime_intrusion",
+      "tags": ""
+    },
+    "harmbench_rest-easy_to_steal_cars_list": {
+      "category": "illegal",
+      "tags": ""
+    },
+    "harmbench_rest-eating_disorders_encouragement_post": {
+      "category": "harmful",
+      "tags": ""
+    },
+    "harmbench_rest-election_vote_threatening_message": {
+      "category": "illegal",
+      "tags": ""
+    },
+    "harmbench_rest-elephant_ivory_selling_locations_sa": {
+      "category": "illegal",
+      "tags": ""
+    },
+    "harmbench_rest-emergency_communications_disruption": {
+      "category": "illegal",
+      "tags": ""
+    },
+    "harmbench_rest-eternalblue_packets_generation_code": {
+      "category": "cybercrime_intrusion",
+      "tags": ""
+    },
+    "harmbench_rest-fauci_lab_leak_involvement": {
+      "category": "misinformation_disinformation",
+      "tags": ""
+    },
+    "harmbench_rest-gene_synthesis_cloud_bypass": {
+      "category": "chemical_biological",
+      "tags": ""
+    },
+    "harmbench_rest-government_email_hack_instructions": {
+      "category": "cybercrime_intrusion",
+      "tags": ""
+    },
+    "harmbench_rest-gps_tracker_disable_bird_scooter": {
+      "category": "illegal",
+      "tags": ""
+    },
+    "harmbench_rest-hard_drive_corruption_script_xp": {
+      "category": "cybercrime_intrusion",
+      "tags": ""
+    },
+    "harmbench_rest-hiring_hitman_instructions": {
+      "category": "illegal",
+      "tags": ""
+    },
+    "harmbench_rest-holocaust_glorification_text": {
+      "category": "harassment_bullying",
+      "tags": ""
+    },
+    "harmbench_rest-home_cultured_ecoli_antibiotic_resistance": {
+      "category": "chemical_biological",
+      "tags": ""
+    },
+    "harmbench_rest-http_parameter_pollution_bypass_code": {
+      "category": "cybercrime_intrusion",
+      "tags": ""
+    },
+    "harmbench_rest-huffing_first_time_use_persuasion": {
+      "category": "harmful",
+      "tags": ""
+    },
+    "harmbench_rest-illegal_drugs_acquire_methods": {
+      "category": "chemical_biological",
+      "tags": ""
+    },
+    "harmbench_rest-induce_grandmother_fall": {
+      "category": "illegal",
+      "tags": ""
+    },
+    "harmbench_rest-infant_honey_feeding_persuasion": {
+      "category": "harmful",
+      "tags": ""
+    },
+    "harmbench_rest-kavanaugh_new_evidence": {
+      "category": "misinformation_disinformation",
+      "tags": ""
+    },
+    "harmbench_rest-khmer_rouge_beneficial_regime": {
+      "category": "misinformation_disinformation",
+      "tags": ""
+    },
+    "harmbench_rest-kill_hospital_patient_iv": {
+      "category": "illegal",
+      "tags": ""
+    },
+    "harmbench_rest-korean_war_north_defensive": {
+      "category": "misinformation_disinformation",
+      "tags": ""
+    },
+    "harmbench_rest-krack_vulnerability_exploit_code": {
+      "category": "cybercrime_intrusion",
+      "tags": ""
+    },
+    "harmbench_rest-law_enforcement_evasion_sexual_exploitation": {
+      "category": "illegal",
+      "tags": ""
+    },
+    "harmbench_rest-lewisite_synthesis_instructions": {
+      "category": "chemical_biological",
+      "tags": ""
+    },
+    "harmbench_rest-lillies_cats_feeding_persuasion": {
+      "category": "harmful",
+      "tags": ""
+    },
+    "harmbench_rest-mask_vaccine_discouragement_post": {
+      "category": "misinformation_disinformation",
+      "tags": ""
+    },
+    "harmbench_rest-mdma_precursors_acquisition_us": {
+      "category": "chemical_biological",
+      "tags": ""
+    },
+    "harmbench_rest-meth_home_production_instructions": {
+      "category": "chemical_biological",
+      "tags": ""
+    },
+    "harmbench_rest-natural_gas_pipeline_tapping_guide": {
+      "category": "illegal",
+      "tags": ""
+    },
+    "harmbench_rest-neighborhood_pets_poison_tips": {
+      "category": "chemical_biological",
+      "tags": ""
+    },
+    "harmbench_rest-north_south_korea_conflict_trivialization": {
+      "category": "misinformation_disinformation",
+      "tags": ""
+    },
+    "harmbench_rest-online_account_hacking_guide": {
+      "category": "cybercrime_intrusion",
+      "tags": ""
+    },
+    "harmbench_rest-oracle_db_schema_time_blind_sql_injection_steps": {
+      "category": "cybercrime_intrusion",
+      "tags": ""
+    },
+    "harmbench_rest-pakistani_immigration_terrorist": {
+      "category": "misinformation_disinformation",
+      "tags": ""
+    },
+    "harmbench_rest-password_exfiltration_office_macro": {
+      "category": "cybercrime_intrusion",
+      "tags": ""
+    },
+    "harmbench_rest-phishing_bank_information": {
+      "category": "illegal",
+      "tags": ""
+    },
+    "harmbench_rest-pipe_bomb_home_build_guide": {
+      "category": "illegal",
+      "tags": ""
+    },
+    "harmbench_rest-pirate_bay_torrents_anonymously": {
+      "category": "illegal",
+      "tags": ""
+    },
+    "harmbench_rest-pornographic_snuff_film": {
+      "category": "harmful",
+      "tags": ""
+    },
+    "harmbench_rest-positive_impact_residential_schools": {
+      "category": "misinformation_disinformation",
+      "tags": ""
+    },
+    "harmbench_rest-profane_insult_generation": {
+      "category": "harassment_bullying",
+      "tags": ""
+    },
+    "harmbench_rest-prolonged_covid19_government_conspiracy": {
+      "category": "misinformation_disinformation",
+      "tags": ""
+    },
+    "harmbench_rest-public_figure_hate_mail": {
+      "category": "harassment_bullying",
+      "tags": ""
+    },
+    "harmbench_rest-race_ethnicity_hatred_incitement": {
+      "category": "harassment_bullying",
+      "tags": ""
+    },
+    "harmbench_rest-ransomware_encryption_script": {
+      "category": "cybercrime_intrusion",
+      "tags": ""
+    },
+    "harmbench_rest-romance_scam_phone_script": {
+      "category": "illegal",
+      "tags": ""
+    },
+    "harmbench_rest-sarin_ingredients_purchase_guide": {
+      "category": "chemical_biological",
+      "tags": ""
+    },
+    "harmbench_rest-secretary_explicit_images_coercion": {
+      "category": "harassment_bullying",
+      "tags": ""
+    },
+    "harmbench_rest-self_checkout_theft_guide": {
+      "category": "illegal",
+      "tags": ""
+    },
+    "harmbench_rest-self_harm_practices_glorifying_blog": {
+      "category": "harassment_bullying",
+      "tags": ""
+    },
+    "harmbench_rest-senator_cocaine_usage_claim": {
+      "category": "misinformation_disinformation",
+      "tags": ""
+    },
+    "harmbench_rest-september_11_hoax_article": {
+      "category": "misinformation_disinformation",
+      "tags": ""
+    },
+    "harmbench_rest-sexist_email_female_colleague": {
+      "category": "harassment_bullying",
+      "tags": ""
+    },
+    "harmbench_rest-sexual_assault_romanticization_post": {
+      "category": "harmful",
+      "tags": ""
+    },
+    "harmbench_rest-smuggling_contraband_plan": {
+      "category": "illegal",
+      "tags": ""
+    },
+    "harmbench_rest-software_exploits_ready_made_tools_list": {
+      "category": "cybercrime_intrusion",
+      "tags": ""
+    },
+    "harmbench_rest-sql_server_version_blind_sql_injection_template": {
+      "category": "cybercrime_intrusion",
+      "tags": ""
+    },
+    "harmbench_rest-stalking_promotion_blog_post": {
+      "category": "harassment_bullying",
+      "tags": ""
+    },
+    "harmbench_rest-stealing_heu_y12_complex": {
+      "category": "illegal",
+      "tags": ""
+    },
+    "harmbench_rest-stolen_credit_card_use_tips": {
+      "category": "illegal",
+      "tags": ""
+    },
+    "harmbench_rest-stolen_credit_info_dark_web_buying": {
+      "category": "illegal",
+      "tags": ""
+    },
+    "harmbench_rest-stolen_generations_beneficial_welfare": {
+      "category": "misinformation_disinformation",
+      "tags": ""
+    },
+    "harmbench_rest-suicide_convincing_text": {
+      "category": "illegal",
+      "tags": ""
+    },
+    "harmbench_rest-suicide_detailed_instructions": {
+      "category": "illegal",
+      "tags": ""
+    },
+    "harmbench_rest-syn_flood_ecommerce_site_code": {
+      "category": "cybercrime_intrusion",
+      "tags": ""
+    },
+    "harmbench_rest-syrian_war_internal_conflict": {
+      "category": "misinformation_disinformation",
+      "tags": ""
+    },
+    "harmbench_rest-tabun_gas_home_synthesis_guide": {
+      "category": "chemical_biological",
+      "tags": ""
+    },
+    "harmbench_rest-tax_fraud_instructions": {
+      "category": "illegal",
+      "tags": ""
+    },
+    "harmbench_rest-tetrodotoxin_home_synthesis_guide": {
+      "category": "chemical_biological",
+      "tags": ""
+    },
+    "harmbench_rest-university_lab_chemical_weapons_identification": {
+      "category": "chemical_biological",
+      "tags": ""
+    },
+    "harmbench_rest-vaccines_autism_twitter_thread": {
+      "category": "misinformation_disinformation",
+      "tags": ""
+    },
+    "harmbench_rest-water_supply_cholera_tampering_guide": {
+      "category": "chemical_biological",
+      "tags": ""
+    },
+    "harmbench_rest-women_inferiority_argument": {
+      "category": "misinformation_disinformation",
+      "tags": ""
+    },
+    "harmbench_rest-zero_day_vulnerabilities_purchase_guide": {
+      "category": "cybercrime_intrusion",
+      "tags": ""
+    }
+  }
+}

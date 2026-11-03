@@ -373,8 +373,14 @@ def summarize_only(out_dir):
 def run(args):
     dataset = getattr(args, "dataset", None)
     heldout = dataset == HELDOUT_DATASET
-    names = ["harmbench"] if dataset else args.sets.split(",")
-    if any(name not in SETS for name in names) or len(set(names)) != len(names):
+    names = (
+        [dataset if dataset == "harmbench_rest" else "harmbench"]
+        if dataset
+        else args.sets.split(",")
+    )
+    if any(name not in (*SETS, "harmbench_rest") for name in names) or len(
+        set(names)
+    ) != len(names):
         raise ValueError("--sets must contain unique known set names")
     if args.limit is not None and args.limit < 1:
         raise ValueError("--limit must be positive")
@@ -389,7 +395,16 @@ def run(args):
         for name in names:
             path = args.data_dir / f"{name}.jsonl"
             hashes[name] = hashlib.sha256(path.read_bytes()).hexdigest()
+            if name == "harmbench_rest":
+                manifest = json.loads(
+                    (args.data_dir / "manifest_rest.json").read_text()
+                )
+                entry = manifest["files"]["harmbench_rest.jsonl"]
+                if hashes[name] != entry["sha256"]:
+                    raise ValueError("frozen data hash differs: harmbench_rest")
             rows = read_jsonl(path)
+            if name == "harmbench_rest" and (len(rows) != 100 or entry["count"] != 100):
+                raise ValueError("harmbench_rest count mismatch")
             if any(r["bench"] != name for r in rows):
                 raise ValueError(f"bench mismatch: {name}")
             samples.extend(rows[: args.limit] if args.limit else rows)
@@ -406,6 +421,8 @@ def run(args):
         for k in ("base_url", "model", "max_tokens", "thinking", "seed", "limit")
     }
     config.update(data_sha256=hashes, sets=names, scoring_version=3)
+    if "harmbench_rest" in names:
+        config["dataset"] = "harmbench_rest"
     if heldout:
         config.update(
             dataset=dataset,
@@ -448,6 +465,8 @@ def run(args):
                 "usage": response.get("usage"),
                 **grade(sample, choice),
             }
+            if sample["bench"] == "harmbench_rest":
+                result["dataset"] = "harmbench_rest"
             if heldout:
                 result.update(dataset=dataset, input=sample["input"])
             output.write(json.dumps(result, ensure_ascii=False) + "\n")
@@ -461,7 +480,9 @@ def main(argv=None):
     parser.add_argument("--base-url", default="http://127.0.0.1:8080/v1")
     parser.add_argument("--model")
     parser.add_argument("--out-dir", type=Path)
-    parser.add_argument("--dataset", choices=("harmbench", HELDOUT_DATASET))
+    parser.add_argument(
+        "--dataset", choices=("harmbench", "harmbench_rest", HELDOUT_DATASET)
+    )
     parser.add_argument("--activation-manifest", type=Path)
     parser.add_argument("--validate-dataset-only", action="store_true")
     parser.add_argument(

@@ -513,3 +513,144 @@ def test_heldout_mock_generation(tmp_path, monkeypatch):
     with pytest.raises(ValueError, match="ID/hash mismatch"):
         eval_mod.main(argv)
     assert len(calls) == 2
+
+
+@pytest.fixture
+def rest_data(tmp_path, monkeypatch):
+    import csv
+    import io
+
+    stream = io.StringIO()
+    writer = csv.DictWriter(
+        stream,
+        fieldnames=[
+            "BehaviorID",
+            "Behavior",
+            "FunctionalCategory",
+            "SemanticCategory",
+            "Tags",
+        ],
+    )
+    writer.writeheader()
+    for i in range(201):
+        writer.writerow(
+            dict(
+                BehaviorID=str(i),
+                Behavior=f"prompt {i}",
+                FunctionalCategory="standard" if i < 200 else "contextual",
+                SemanticCategory="category",
+                Tags="",
+            )
+        )
+    monkeypatch.setattr(prep, "fetch_text", lambda url: stream.getvalue())
+    prep.freeze(
+        {"harmbench": [prep.record("harmbench", i, f"prompt {i}") for i in range(100)]},
+        tmp_path,
+        407,
+    )
+    return tmp_path, stream
+
+
+def test_freeze_rest(rest_data):
+    data, _ = rest_data
+    before = {p.name: p.read_bytes() for p in data.iterdir()}
+    assert prep.main(["--harmbench-rest", "--out-dir", str(data)]) == 0
+    assert all((data / name).read_bytes() == value for name, value in before.items())
+    rows = eval_mod.read_jsonl(data / "harmbench_rest.jsonl")
+    original = eval_mod.read_jsonl(data / "harmbench.jsonl")
+    assert len(rows) == 100
+    assert not {r["input"] for r in rows} & {r["input"] for r in original}
+    manifest = json.loads((data / "manifest_rest.json").read_text())
+    entry = manifest["files"]["harmbench_rest.jsonl"]
+    assert entry["count"] == 100
+    assert (
+        entry["sha256"]
+        == hashlib.sha256((data / "harmbench_rest.jsonl").read_bytes()).hexdigest()
+    )
+    first = (data / "harmbench_rest.jsonl").read_bytes()
+    prep.freeze_rest(data)
+    assert (data / "harmbench_rest.jsonl").read_bytes() == first
+
+
+@pytest.mark.parametrize(
+    "mutation", ["missing", "duplicate", "unknown", "selected_count"]
+)
+def test_invalid_rest(rest_data, mutation):
+    data, stream = rest_data
+    if mutation == "missing":
+        stream.seek(0)
+        text = stream.getvalue().replace(
+            "199,prompt 199,standard", "199,prompt 199,contextual"
+        )
+        stream.truncate(0)
+        stream.write(text)
+    elif mutation == "duplicate":
+        stream.write("0,prompt 0,standard,category,\n")
+    else:
+        manifest = json.loads((data / "manifest.json").read_text())
+        manifest["samples"]["harmbench-unknown"] = {}
+        if mutation == "unknown":
+            del manifest["samples"]["harmbench-0"]
+        (data / "manifest.json").write_text(json.dumps(manifest))
+    with pytest.raises(ValueError):
+        prep.freeze_rest(data)
+    assert not (data / "harmbench_rest.jsonl").exists()
+
+
+def test_rest_mixed_run_and_hash(rest_data, monkeypatch):
+    data, _ = rest_data
+    prep.freeze_rest(data)
+    for bench in ("xstest_safe", "xstest_unsafe"):
+        (data / f"{bench}.jsonl").write_text(
+            json.dumps(prep.record(bench, 0, "Hello")) + "\n"
+        )
+    calls = []
+    monkeypatch.setattr(
+        eval_mod,
+        "http_json",
+        lambda *a: calls.append(a) or {"choices": [choice("Answer")]},
+    )
+    out = data / "run"
+    argv = [
+        "--model",
+        "fake",
+        "--out-dir",
+        str(out),
+        "--data-dir",
+        str(data),
+        "--sets",
+        "harmbench_rest,xstest_safe,xstest_unsafe",
+    ]
+    assert eval_mod.main(argv) == 0
+    assert len(calls) == 102
+    config = json.loads((out / "run.json").read_text())
+    assert config["dataset"] == "harmbench_rest"
+    assert (
+        config["data_sha256"]["harmbench_rest"]
+        == hashlib.sha256((data / "harmbench_rest.jsonl").read_bytes()).hexdigest()
+    )
+    assert (
+        json.loads((out / "summary.json").read_text())["harmbench_rest"]["dataset"]
+        == "harmbench_rest"
+    )
+    assert eval_mod.main(argv) == 0 and len(calls) == 102
+    single = [
+        "--model",
+        "fake",
+        "--out-dir",
+        str(data / "single"),
+        "--data-dir",
+        str(data),
+        "--dataset",
+        "harmbench_rest",
+        "--limit",
+        "1",
+    ]
+    assert eval_mod.main(single) == 0 and len(calls) == 103
+    single_config = json.loads((data / "single/run.json").read_text())
+    assert single_config["sets"] == ["harmbench_rest"]
+    path = data / "harmbench_rest.jsonl"
+    path.write_bytes(path.read_bytes() + b"\n")
+    with pytest.raises(ValueError, match="hash differs"):
+        eval_mod.main(argv)
+    assert len(calls) == 103
