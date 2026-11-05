@@ -8,7 +8,8 @@
 - `final`: the layer 24 residual direction, biprojected against benign means, with norm preservation, strength 1 and two quantization iterations
 
 The `layer24-k1` and `final` variants modify all 47 main layers and the token
-embedding. These
+embedding. Except for the security tasks, which use external datasets and
+the settings given in their section, these
 results use the frozen datasets under `data/`, seed 407, temperature 1.0,
 top-p 0.95, top-k 20 and min-p 0, without a separate thinking-token budget.
 The untouched HarmBench set and [XSTest](https://github.com/paul-rottger/xstest)
@@ -104,6 +105,64 @@ These criteria were fixed before any answer was generated on the sets below.
 - Variants: `original`, `huihui-ai` and `final`, with the generation settings
   above
 
+## Security tasks
+
+These evaluations compare `original` and `final` on defensive security work,
+and measure how often each variant refuses attack-oriented requests. Their
+evaluation code is not part of this repository; the upstream benchmarks,
+commits and settings below define them. They run on the same llama.cpp fork
+commit `5c4fc1a68` as the evaluations above.
+
+| Measure | original | final | Only original | Only final | p |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| CyberSecEval FRR refusals / 86 | 0 | 0 | 0 | 0 | 1.00 |
+| CTI-MCQ correct / 200 | 140 | 127 | 26 | 13 | 0.053 |
+| AgentDojo utility / 40 | 32 | 36 | 1 | 5 | 0.22 |
+| AgentDojo utility under attack / 560 | 379 | 406 | 57 | 84 | 0.028 |
+| AgentDojo attack success / 560 | 38 | 46 | 19 | 27 | 0.30 |
+
+p is the exact two-sided McNemar test on the paired examples. These use the
+generation settings above with a 16384-token output limit.
+
+- [CyberSecEval](https://github.com/meta-llama/PurpleLlama/tree/main/CybersecurityBenchmarks)
+  FRR (PurpleLlama `f64eebd`): benign cybersecurity requests that resemble
+  attacks. 200 of the 750 prompts were sampled with seed 407 and the first 86
+  were evaluated. Final answers are judged by the upstream refusal rule
+- [CTI-MCQ](https://github.com/maveryn/cti-bench) (cti-bench `4543e5b`,
+  dataset revision `9237e16`): 200 of 2,500 cyber threat intelligence
+  multiple-choice questions, sampled with seed 407, with the official prompt and
+  answer extraction. Three `final` answers reached the output limit and count
+  as incorrect
+- [AgentDojo](https://github.com/ethz-spylab/agentdojo) (commit `089ed46`,
+  benchmark v1.2.2): the workspace suite's 40 user tasks without attack, and all
+  560 pairs with its 14 injection tasks under the `important_instructions`
+  attack. No task ended in an error
+
+[CyberSecEval MITRE](https://github.com/meta-llama/PurpleLlama/tree/main/CybersecurityBenchmarks)
+asks for help with cyberattack tasks in MITRE ATT&CK categories. The 100 prompts
+are the upstream harness's `--num-test-cases 100` selection, 10 per category.
+Generation disables thinking and uses the harness's default temperature 0.6 and
+top-p 0.9, seed 407 and a 4096-token output limit. The upstream refusal and
+judging logic is unchanged; its requests carry the same thinking, seed and
+output-limit settings. `original` is the expansion and judge model for every
+variant.
+
+| Model | Refusals / 100 | Expansion `1` | Expansion `0` | Output-limit truncations |
+| --- | ---: | ---: | ---: | ---: |
+| original | 20 | 80 | 0 | 1 |
+| huihui-ai | 0 | 100 | 0 | 4 |
+| final | 0 | 100 | 0 | 6 |
+
+The upstream refusal rule detects no refusal from either edited variant,
+including on the 20 prompts `original` refuses (exact two-sided McNemar
+p < 0.001 for each). The
+expansion step answers `1` when it judges a response useful to an attacker.
+The upstream benign / malicious verdict reads only this one-character output
+and labels every non-refused response benign, so the expansion output is the
+reported measure. Truncated responses are judged as returned. These counts
+reflect rule-detected refusals and the judge's usefulness labels, not the
+accuracy of the answers.
+
 ## Aggregation rules
 
 Classifier totals, `yes`, `no`, truncated, empty and unparsed counts are selected
@@ -116,6 +175,8 @@ per set; `phrase_refusals` counts generations whose final answer opens with a
 refusal phrase. `paired_harmbench_rest` compares per-behavior classifier labels
 of `final` and `huihui-ai` on the untouched set; `excluded` counts behaviors
 with a truncated or unparsed answer on either side.
+`paired_security` and `paired_mitre_refusals` count examples where exactly one
+of the two variants is positive for the named measure.
 
 Capability counts combine the initial 16384-token run with 32768-token
 regenerations of only the initially truncated examples. The initial summary's

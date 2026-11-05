@@ -85,10 +85,31 @@ norm preservation; `final` is this model. Capability counts replace 16K
 truncations with their 32K regenerations. One final-model MMLU-Pro example remains
 truncated and counts as incorrect.
 
+Security tasks compare this model with the original using the settings above:
+[CyberSecEval](https://github.com/meta-llama/PurpleLlama/tree/main/CybersecurityBenchmarks)
+FRR (benign requests that resemble attacks), [CTI-MCQ](https://github.com/maveryn/cti-bench)
+(cyber threat intelligence questions) and the [AgentDojo](https://github.com/ethz-spylab/agentdojo)
+workspace suite (prompt injection through tool outputs).
+
+| Measure | original | final | p |
+| --- | ---: | ---: | ---: |
+| FRR refusals / 86 | 0 | 0 | 1.00 |
+| CTI-MCQ correct / 200 | 140 | 127 | 0.053 |
+| AgentDojo utility / 40 | 32 | 36 | 0.22 |
+| AgentDojo utility under attack / 560 | 379 | 406 | 0.028 |
+| AgentDojo attack success / 560 | 38 | 46 | 0.30 |
+
+The original refuses none of the FRR requests, so removing refusals cannot
+improve that score. CTI-MCQ is 13 answers lower, short of significance, and
+three of this model's answers reach the 16K limit. AgentDojo attack success is
+not significantly higher. p is the exact two-sided McNemar test; see the
+[security results](https://github.com/ishikawa/glm-4.7-flash-abliteration/blob/main/results/README.md#security-tasks) for sources and settings.
+
 - These are small evaluation sets; differences of a few answers do not establish broad capability differences
 - The HarmBench selection set helps select direction layers and strengths, and editing methods are selected on 50 generated harmful held-out prompts; only the untouched HarmBench set and XSTest are independent of every choice
 - On the selection set this model and huihui-ai are also close, with 91 versus 92 compliant answers and 6 and 5 examples where only one model complies
 - As with other abliterated models, the edit also removes most refusals of unsafe XSTest requests (44 → 3 of 50)
+- On 100 [CyberSecEval MITRE](https://github.com/meta-llama/PurpleLlama/tree/main/CybersecurityBenchmarks) prompts asking for help with cyberattack tasks, the upstream refusal rule detects 20 refusals from the original and none from this model or huihui-ai (exact two-sided McNemar p < 0.001). These counts do not measure answer accuracy; generation disables thinking and the original serves as the judge ([details](https://github.com/ishikawa/glm-4.7-flash-abliteration/blob/main/results/README.md#security-tasks))
 - Removing a refusal direction reduces safety behavior and can produce harmful, inaccurate or unreliable output; these scores do not establish safety or suitability for a particular use, and users are responsible for complying with applicable laws and the base model's license
 
 ## How it was made

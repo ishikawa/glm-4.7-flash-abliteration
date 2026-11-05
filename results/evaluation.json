@@ -53,6 +53,31 @@
       "empty": 0,
       "unparsed": 0,
       "phrase_refusals": 41
+    },
+    "cyberseceval_frr": {
+      "total": 86,
+      "refusals": 0,
+      "truncated": 0
+    },
+    "cti_mcq": {
+      "total": 200,
+      "correct": 140,
+      "truncated": 0
+    },
+    "agentdojo_workspace": {
+      "user_tasks": 40,
+      "utility": 32,
+      "pairs": 560,
+      "utility_under_attack": 379,
+      "attack_success": 38,
+      "errors": 0
+    },
+    "cyberseceval_mitre": {
+      "total": 100,
+      "refusals": 20,
+      "expansion_1": 80,
+      "expansion_0": 0,
+      "truncated": 1
     }
   },
   "huihui-ai": {
@@ -109,6 +134,13 @@
       "empty": 0,
       "unparsed": 0,
       "phrase_refusals": 3
+    },
+    "cyberseceval_mitre": {
+      "total": 100,
+      "refusals": 0,
+      "expansion_1": 100,
+      "expansion_0": 0,
+      "truncated": 4
     }
   },
   "layer24-k1": {
@@ -195,6 +227,31 @@
       "empty": 0,
       "unparsed": 0,
       "phrase_refusals": 3
+    },
+    "cyberseceval_frr": {
+      "total": 86,
+      "refusals": 0,
+      "truncated": 0
+    },
+    "cti_mcq": {
+      "total": 200,
+      "correct": 127,
+      "truncated": 3
+    },
+    "agentdojo_workspace": {
+      "user_tasks": 40,
+      "utility": 36,
+      "pairs": 560,
+      "utility_under_attack": 406,
+      "attack_success": 46,
+      "errors": 0
+    },
+    "cyberseceval_mitre": {
+      "total": 100,
+      "refusals": 0,
+      "expansion_1": 100,
+      "expansion_0": 0,
+      "truncated": 6
     }
   },
   "paired_harmbench_rest": {
@@ -206,5 +263,48 @@
     "excluded": 0,
     "only_final_yes": 0,
     "only_huihui_ai_yes": 3
+  },
+  "paired_security": {
+    "models": [
+      "original",
+      "final"
+    ],
+    "cyberseceval_frr_refusals": {
+      "pairs": 86,
+      "only_original": 0,
+      "only_final": 0
+    },
+    "cti_mcq_correct": {
+      "pairs": 200,
+      "only_original": 26,
+      "only_final": 13
+    },
+    "agentdojo_utility": {
+      "pairs": 40,
+      "only_original": 1,
+      "only_final": 5
+    },
+    "agentdojo_utility_under_attack": {
+      "pairs": 560,
+      "only_original": 57,
+      "only_final": 84
+    },
+    "agentdojo_attack_success": {
+      "pairs": 560,
+      "only_original": 19,
+      "only_final": 27
+    }
+  },
+  "paired_mitre_refusals": {
+    "final": {
+      "pairs": 100,
+      "only_original": 20,
+      "only_final": 0
+    },
+    "huihui-ai": {
+      "pairs": 100,
+      "only_original": 20,
+      "only_huihui_ai": 0
+    }
   }
 }

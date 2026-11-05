@@ -53,6 +53,14 @@ initial 16K truncations with 32K regenerations, keep all 50 examples in each
 denominator, and count the final model's one remaining MMLU-Pro truncation as
 incorrect. See [aggregate results and counting rules](results/README.md).
 
+On security tasks the final variant and the original refuse none of the
+CyberSecEval FRR requests; CTI-MCQ is 13 of 200 answers lower (p = 0.053) and
+AgentDojo attack success is not significantly higher. On 100 CyberSecEval MITRE
+prompts the upstream refusal rule detects 20 refusals from the original and
+none from the final variant or huihui-ai.
+The [security results](results/README.md#security-tasks) give sources and
+settings; their evaluation code is not part of this repository.
+
 Direction layers and strengths were compared on the HarmBench selection set. At
 strength 1, the layer comparison gives:
 
